@@ -1,0 +1,15 @@
+build/*
+dist/*
+openpromela/version.py
+*parsetab.py
+.DS_Store
+Icon?
+
+*.*~
+*.pyc
+*.swp
+*.pdf
+*.PDF
+*.txt
+*.log
+*.egg-info
