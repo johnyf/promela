@@ -1,6 +1,6 @@
 build/*
 dist/*
-openpromela/version.py
+promela/version.py
 *parsetab.py
 .DS_Store
 Icon?
