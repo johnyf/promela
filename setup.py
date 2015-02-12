@@ -1,3 +1,4 @@
+import pip
 from setuptools import setup
 
 
@@ -15,19 +16,22 @@ s = (
     "version = '{version}'\n").format(version=version)
 
 
+def build_parser_table():
+    from promela import yacc
+    tabmodule = yacc.TABMODULE.split('.')[-1]
+    outputdir = 'promela/'
+    parser = yacc.Parser()
+    parser.build(tabmodule, outputdir=outputdir, write_tables=True)
+
+
 if __name__ == '__main__':
+    pip.main(['install', 'ply == 3.4'])
+    pip.main(['install',
+              '--allow-unverified', 'networkx>=2.0dev',
+              'https://github.com/networkx/networkx/archive/master.zip'])
+    build_parser_table()
     with open(VERSION_FILE, 'w') as f:
         f.write(s)
-    # build parser table
-    try:
-        from promela import yacc
-        tabmodule = yacc.TABMODULE.split('.')[-1]
-        outputdir = 'promela/'
-        parser = yacc.Parser()
-        parser.build(tabmodule, outputdir=outputdir, write_tables=True)
-        plytable_build_failed = False
-    except AssertionError:
-        plytable_build_failed = True
     setup(
         name='promela',
         version=version,
@@ -42,7 +46,3 @@ if __name__ == '__main__':
         tests_require=['nose'],
         packages=['promela'],
         package_dir={'promela': 'promela'})
-    if plytable_build_failed:
-        print(
-            'ERROR: failed to build parser table.'
-            'Please run setup.py again.')
