@@ -2,6 +2,7 @@ build/*
 dist/*
 promela/version.py
 *parsetab.py
+.coverage
 .DS_Store
 Icon?
 

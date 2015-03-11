@@ -1,3 +1,7 @@
+[![Build Status][build_img]][travis]
+[![Coverage Status][coverage]][coveralls]
+
+
 About
 =====
 
@@ -26,3 +30,9 @@ python setup.py install
 License
 =======
 [BSD-3](http://opensource.org/licenses/BSD-3-Clause), see `LICENSE` file.
+
+
+[build_img]: https://travis-ci.org/johnyf/promela.svg?branch=master
+[travis]: https://travis-ci.org/johnyf/promela
+[coverage]: https://coveralls.io/repos/johnyf/promela/badge.svg?branch=master
+[coveralls]: https://coveralls.io/r/johnyf/promela?branch=master

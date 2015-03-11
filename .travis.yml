@@ -1,0 +1,19 @@
+language: python
+
+python:
+  - 2.7
+
+install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y graphviz
+  - pip install --upgrade pip setuptools
+  - pip install coveralls
+  - pip install pydot --allow-unverified pydot --allow-external pydot
+  - pip install .
+
+script:
+  - cd tests/
+  - nosetests --with-coverage --cover-package=promela
+
+after_success:
+  - coveralls

@@ -5,7 +5,7 @@ from nose.tools import assert_raises
 from promela import ast, yacc
 
 
-level = logging.DEBUG - 5
+level = logging.WARNING
 logger = logging.getLogger(__name__)
 logger.setLevel(level)
 prefix = 'pyggyback.promela.yacc.'
