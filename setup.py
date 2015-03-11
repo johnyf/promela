@@ -29,9 +29,9 @@ if __name__ == '__main__':
     pip.main(['install',
               '--allow-unverified', 'networkx>=2.0dev',
               'https://github.com/networkx/networkx/archive/master.zip'])
-    build_parser_table()
     with open(VERSION_FILE, 'w') as f:
         f.write(s)
+    build_parser_table()
     setup(
         name='promela',
         version=version,
