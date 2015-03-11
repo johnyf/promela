@@ -96,7 +96,7 @@ class Proctype(object):
         S = nx.descendants(g, g.root)
         S.add(g.root)
         [g.remove_node(x) for x in g.nodes() if x not in S]
-        if logger.getEffectiveLevel() < logging.DEBUG:
+        if logger.getEffectiveLevel() == 1:
             dump_graph(
                 g, 'dbg.pdf', node_label='context',
                 edge_label='stmt', relabel=True)
