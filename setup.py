@@ -26,9 +26,6 @@ def build_parser_table():
 
 if __name__ == '__main__':
     pip.main(['install', 'ply == 3.4'])
-    pip.main(['install',
-              '--allow-unverified', 'networkx>=2.0dev',
-              'https://github.com/networkx/networkx/archive/master.zip'])
     with open(VERSION_FILE, 'w') as f:
         f.write(s)
     build_parser_table()
