@@ -25,9 +25,9 @@ def build_parser_table():
 
 
 if __name__ == '__main__':
-    pip.main(['install', 'ply == 3.4'])
     with open(VERSION_FILE, 'w') as f:
         f.write(s)
+    pip.main(['install', 'ply == 3.4'])
     build_parser_table()
     setup(
         name='promela',
