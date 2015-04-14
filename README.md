@@ -14,17 +14,19 @@ A short tutorial can be found in the file `doc.md`.
 Installation
 ============
 
-You can install from PyPI using `pip`:
+Dependencies can be installed using `pip`:
 
 ```
-pip install promela
+pip install -r requirements.txt
 ```
 
-or locally using `setuptools`:
+and then the `promela` package using `setuptools`:
 
 ```
 python setup.py install
 ```
+
+Note that a development version of [`networkx`](https://github.com/networkx/networkx) is necessary, due to [a bug](https://github.com/networkx/networkx/pull/1278) (in v1.9.1) that affects the `promela` package.
 
 
 License

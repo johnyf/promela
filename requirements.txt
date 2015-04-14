@@ -1,0 +1,5 @@
+ply==3.4
+pyparsing==2.0.3
+http://pydot.googlecode.com/files/pydot-1.0.28.tar.gz
+nose==1.3.4
+https://github.com/networkx/networkx/archive/master.zip
