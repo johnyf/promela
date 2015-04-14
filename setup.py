@@ -5,7 +5,7 @@ from setuptools import setup
 description = (
     'Parser and abstract syntax tree for the Promela modeling language.')
 README = 'README.md'
-VERSION_FILE = 'promela/version.py'
+VERSION_FILE = 'promela/_version.py'
 MAJOR = 0
 MINOR = 0
 MICRO = 1

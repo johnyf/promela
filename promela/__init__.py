@@ -4,6 +4,6 @@ It uses PLY, the Python Lex-Yacc implementation.
 """
 from .yacc import Parser
 try:
-    from .version import version as __version__
+    from ._version import version as __version__
 except:
     __version__ = None

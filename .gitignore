@@ -1,6 +1,6 @@
 build/*
 dist/*
-promela/version.py
+promela/_version.py
 *parsetab.py
 .coverage
 .DS_Store
