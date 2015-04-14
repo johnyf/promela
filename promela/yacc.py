@@ -357,26 +357,22 @@ class Parser(object):
         """varref : cmpnd"""
         p[0] = p[1]
 
-    def p_cmpnd(self, p):
-        """cmpnd : pfld sfld"""
-        p[0] = self.ast.VarRef(extension=p[2], **p[1])
+    def p_cmpnd_iter(self, p):
+        """cmpnd : cmpnd PERIOD cmpnd %prec DOT"""
+        p[0] = self.ast.VarRef(extension=p[3], **p[1])
+
+    def p_cmpnd_end(self, p):
+        """cmpnd : pfld"""
+        p[0] = self.ast.VarRef(**p[1])
 
     # pfld = prefix field
-    def p_pfld(self, p):
-        """pfld : NAME"""
-        p[0] = {'name': p[1]}
-
     def p_pfld_indexed(self, p):
         """pfld : NAME LBRACKET expr RBRACKET"""
         p[0] = {'name': p[1], 'index': p[3]}
 
-    # sfld = suffix field
-    def p_sfld(self, p):
-        """sfld : PERIOD cmpnd %prec DOT"""
-        p[0] = p[2]
-
-    def p_sfld_empty(self, p):
-        """sfld : empty"""
+    def p_pfld(self, p):
+        """pfld : NAME"""
+        p[0] = {'name': p[1]}
 
     # Attributes
     # ==========
@@ -720,8 +716,8 @@ class Parser(object):
                 | NAME LBRACKET expr RBRACKET AT NAME
                 | NAME LBRACKET expr RBRACKET COLON pfld
                 | NAME AT NAME
-                | NAME COLON pfld
         """
+        # | NAME COLON pfld %prec DOT2
         p[0] = p[1]
         warnings.warn('not implemented')
 
