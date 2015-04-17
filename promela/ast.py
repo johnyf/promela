@@ -229,7 +229,7 @@ class Sequence(list):
 
     def __repr__(self):
         l = super(Sequence, self).__repr__()
-        return 'Sequence({l}, contex={c}, is_option={isopt})'.format(
+        return 'Sequence({l}, context={c}, is_option={isopt})'.format(
             l=l, c=self.context, isopt=self.is_option)
 
     def to_pg(self, g, context=None, option_guard=None, **kw):
