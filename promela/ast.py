@@ -329,6 +329,7 @@ class Options(Node):
         self_has_else = False
         option_has_else = False
         edges = list()
+        else_ine = None
         for option in self.options:
             logger.debug('option: {opt}'.format(opt=option))
             t = option.to_pg(g, od_exit=od_exit, **kw)
@@ -353,9 +354,11 @@ class Options(Node):
                     option_has_else = True
                 else:
                     raise Exception('option with no in edges')
-            # collect in edges
+            # collect in edges, except for own `else`
             if not (has_else and self_has_else):
                 edges.extend(ine)
+            else:
+                else_ine = ine  # keep for later
             # forward edges
             # goto from last option node to target node
             g.add_edge(out, target, stmt='goto')
@@ -367,6 +370,8 @@ class Options(Node):
         # handle else
         if self_has_else and not option_has_else:
             self_else.other_guards = [d['stmt'] for v, d in edges]
+            # add back the `else` edge
+            edges.extend(else_ine)
         # what is the exit node ?
         if self.type == 'if':
             out = target
