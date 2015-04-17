@@ -8,12 +8,12 @@ from promela import ast, yacc
 level = logging.WARNING
 logger = logging.getLogger(__name__)
 logger.setLevel(level)
-prefix = 'pyggyback.promela.yacc.'
+prefix = 'promela.yacc.'
 logs = {prefix + x for x in {'yacc', 'parser', 'ast'}}
 for log in logs:
     logging.getLogger(log).setLevel(logging.ERROR)
 h = logging.StreamHandler()
-log = logging.getLogger('pyggyback.promela.ast')
+log = logging.getLogger('promela.ast')
 log.setLevel(level)
 log.addHandler(h)
 
