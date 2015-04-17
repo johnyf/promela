@@ -624,6 +624,31 @@ def test_else():
             print c.other_guards
 
 
+def test_nested_else():
+    s = '''
+    proctype p(){
+        byte x;
+        do
+        ::
+            if
+            :: false
+            :: else
+            fi
+        od
+    }
+    '''
+    (proc,) = parser.parse(s)
+    g = proc.to_pg()
+    dump(g)
+    h = nx.MultiDiGraph()
+    h.add_edges_from([(0, 0), (0, 0)])
+    for u in h:
+        h.add_node(u, context=None)
+    nm = lambda x, y: x['context'] == y['context']
+    gm = iso.GraphMatcher(g, h, node_match=nm)
+    assert gm.is_isomorphic()
+
+
 def test_labels():
     s = '''
     active proctype foo(){
