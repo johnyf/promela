@@ -14,6 +14,9 @@ version = '{major}.{minor}.{micro}'.format(
 s = (
     '# This file was generated from setup.py\n'
     "version = '{version}'\n").format(version=version)
+install_requires = [
+    'ply == 3.4',
+    'networkx >= 2.0.dev']
 
 
 def build_parser_table():
@@ -27,7 +30,7 @@ def build_parser_table():
 if __name__ == '__main__':
     with open(VERSION_FILE, 'w') as f:
         f.write(s)
-    pip.main(['install', 'ply == 3.4'])
+    pip.main(['install'] + install_requires)
     build_parser_table()
     setup(
         name='promela',
@@ -38,7 +41,7 @@ if __name__ == '__main__':
         author_email='jfilippidis@gmail.com',
         url='https://github.com/johnyf/promela',
         license='BSD',
-        install_requires=['networkx >= 2.0.dev', 'ply == 3.4'],
+        install_requires=install_requires,
         extras_require={'dot': 'pydot'},
         tests_require=['nose'],
         packages=['promela'],
