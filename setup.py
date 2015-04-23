@@ -1,5 +1,6 @@
 import pip
 from setuptools import setup
+import sys
 
 
 description = (
@@ -30,8 +31,9 @@ def build_parser_table():
 if __name__ == '__main__':
     with open(VERSION_FILE, 'w') as f:
         f.write(s)
-    pip.main(['install'] + install_requires)
-    build_parser_table()
+    if 'egg_info' not in sys.argv:
+        pip.main(['install'] + install_requires)
+        build_parser_table()
     setup(
         name='promela',
         version=version,
