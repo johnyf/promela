@@ -7,7 +7,6 @@ import ctypes
 import pprint
 import networkx as nx
 from networkx.utils import misc
-assert nx.__version__.startswith('2.')
 
 
 logger = logging.getLogger(__name__)
@@ -104,8 +103,8 @@ class Proctype(object):
         assert_gotos_are_admissible(g)
         for u in g.nodes():
             contract_goto_edges(g, u)
-        map_uuid_to_int(g)
-        return g
+        h = map_uuid_to_int(g)
+        return h
 
 
 def contract_goto_edges(g, u):
@@ -154,9 +153,18 @@ def assert_gotos_are_admissible(g):
 
 def map_uuid_to_int(g):
     """Reinplace uuid nodes with integers."""
-    mapping = {u: i for i, u in enumerate(g)}
-    nx.relabel_nodes(g, mapping, copy=False)
-    g.root = mapping[g.root]
+    umap = {u: i for i, u in enumerate(sorted(g))}
+    h = nx.MultiDiGraph(name=g.name)
+    for u, d in g.nodes_iter(data=True):
+        p = umap[u]
+        h.add_node(p, **d)
+    for u, v, key, d in g.edges_iter(keys=True, data=True):
+        p = umap[u]
+        q = umap[v]
+        h.add_edge(p, q, key=key, **d)
+    h.root = umap[g.root]
+    h.locals = g.locals
+    return h
 
 
 class NeverClaim(Proctype):
