@@ -709,13 +709,22 @@ class Parser(object):
         """expr : TIMEOUT
                 | NONPROGRESS
                 | PC_VAL LPAREN expr RPAREN
-                | NAME LBRACKET expr RBRACKET AT NAME
-                | NAME LBRACKET expr RBRACKET COLON pfld
-                | NAME AT NAME
         """
+        raise NotImplementedError()
+
+    def p_expr_remote_ref_proctype_pc(self, p):
+        """expr : NAME AT NAME
+        """
+        p[0] = self.ast.RemoteRef(p[1], p[3])
+
+    def p_expr_remote_ref_pid_pc(self, p):
+        """expr : NAME LBRACKET expr RBRACKET AT NAME"""
+        p[0] = self.ast.RemoteRef(p[1], p[6], pid=p[3])
+
+    def p_expr_remote_ref_var(self, p):
+        """expr : NAME LBRACKET expr RBRACKET COLON pfld"""
         # | NAME COLON pfld %prec DOT2
-        p[0] = p[1]
-        warnings.warn('not implemented')
+        raise NotImplementedError()
 
     def p_expr_comparator(self, p):
         """expr : expr EQ expr

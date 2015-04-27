@@ -959,6 +959,25 @@ class Bool(Terminal):
         return str(self.value)
 
 
+class RemoteRef(Terminal):
+    def __init__(self, proctype, label, pid=None):
+        self.proctype = proctype
+        self.label = label
+        self.pid = pid
+
+    def __repr__(self):
+        return 'RemoteRef({proc}, {label}, {pid})'.format(
+            proc=self.proctype, label=self.label, pid=self.pid)
+
+    def __str__(self):
+        if self.pid is None:
+            inst = ''
+        else:
+            inst = '[{pid}]'.format(pid=self.pid)
+        return '{proc} {inst} @ {label}'.format(
+            proc=self.proctype, inst=inst, label=self.label)
+
+
 def dump_graph(g, fname='a.pdf', node_label='label',
                edge_label='label', relabel=False):
     """Write the program graph, annotated with formulae, to PDF file."""

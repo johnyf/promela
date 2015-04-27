@@ -693,6 +693,25 @@ def test_labels():
         print d.get('label')
 
 
+def test_remote_ref():
+    s = '''
+    proctype foo(){
+        bar @ critical
+    }
+    '''
+    (proc,) = parser.parse(s)
+    g = proc.to_pg()
+    (e,) = g.edges(data=True)
+    u, v, d = e
+    s = d['stmt']
+    assert isinstance(s, ast.Expression), s
+    ref = s.expr
+    assert isinstance(ref, ast.RemoteRef), ref
+    assert ref.proctype == 'bar', ref.proctype
+    assert ref.label == 'critical', ref.label
+    assert ref.pid is None, ref.pid
+
+
 def dump(g, fname='g.pdf', node_label='context'):
     if logger.getEffectiveLevel() >= logging.DEBUG:
         return
