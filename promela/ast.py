@@ -252,7 +252,9 @@ class Sequence(list):
 
     def to_pg(self, g, context=None, option_guard=None, **kw):
         # set context
-        c = self.context
+        if context is None:
+            context = self.context
+        c = context
         assert c in {'atomic', 'd_step', None}
         # atomic cannot appear inside d_step
         if context == 'd_step' and c == 'atomic':
@@ -350,7 +352,7 @@ class Options(Node):
         else_ine = None
         for option in self.options:
             logger.debug('option: {opt}'.format(opt=option))
-            t = option.to_pg(g, od_exit=od_exit, **kw)
+            t = option.to_pg(g, od_exit=od_exit, context=context, **kw)
             assert t is not None  # decls filtered by `Sequence`
             ine, out = t
             assert out in g
