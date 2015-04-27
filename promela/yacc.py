@@ -35,19 +35,13 @@ import ply.yacc
 
 
 TABMODULE = 'promela.promela_parsetab'
-prefix = __name__ + '.'
-YACC_LOG = prefix + 'yacc'
-PARSER_LOG = prefix + 'parser'
-AST_LOG = prefix + 'ast'
 logger = logging.getLogger(__name__)
-yacc_logger = logging.getLogger(name=YACC_LOG)
-parser_logger = logging.getLogger(name=PARSER_LOG)
-ast_logger = logging.getLogger(name=AST_LOG)
 
 
 class Parser(object):
     """Production rules for Promela parser."""
 
+    logger = logger
     tabmodule = TABMODULE
     start = 'program'
     # http://spinroot.com/spin/Man/operators.html
@@ -87,16 +81,17 @@ class Parser(object):
         self.build()
 
     def build(self, tabmodule=None, outputdir='', write_tables=False,
-              debug=False, debuglog=None):
+              debug=False, debuglog=None, errorlog=None):
         """Build parser using `ply.yacc`.
 
         Default table module is `self.tabmodule`.
-        Default logger is `YACC_LOGGER`
+        Module logger used as default debug logger.
+        Default error logger is that created by PLY.
         """
         if tabmodule is None:
             tabmodule = self.tabmodule
-        if debug and debuglog is None:
-            debuglog = yacc_logger
+        if debuglog is None:
+            debuglog = self.logger
         self.parser = ply.yacc.yacc(
             method='LALR',
             module=self,
@@ -105,13 +100,14 @@ class Parser(object):
             outputdir=outputdir,
             write_tables=write_tables,
             debug=debug,
-            debuglog=debuglog)
+            debuglog=debuglog,
+            errorlog=errorlog)
 
     def parse(self, promela):
         """Parse string of Promela code."""
         s = cpp(promela)
         program = self.parser.parse(
-            s, lexer=self.lexer.lexer, debug=parser_logger)
+            s, lexer=self.lexer.lexer, debug=self.logger)
         return program
 
     def _iter(self, p):
@@ -454,7 +450,7 @@ class Parser(object):
     def p_step_4(self, p):
         """step : stmnt UNLESS stmnt"""
         p[0] = (p[1], 'unless', p[3])
-        ast_logger.warning('UNLESS not interpreted yet')
+        self.logger.warning('UNLESS not interpreted yet')
 
     # Statement
     # =========
@@ -907,19 +903,19 @@ def cpp(s):
             raise Exception('C preprocessor (cpp) not found in path.')
         else:
             raise
-    parser_logger.debug('cpp input:\n' + s)
+    logger.debug('cpp input:\n' + s)
     stdout, stderr = p.communicate(s)
-    parser_logger.debug('cpp returned: {c}'.format(c=p.returncode))
-    parser_logger.debug('cpp stdout:\n {out}'.format(out=stdout))
+    logger.debug('cpp returned: {c}'.format(c=p.returncode))
+    logger.debug('cpp stdout:\n {out}'.format(out=stdout))
     return stdout
 
 
 def rebuild_table(parser, tabmodule):
+    # log details to file
     h = logging.FileHandler('log.txt', mode='w')
-    h.setLevel(logging.DEBUG)
-    log = logging.getLogger(YACC_LOG)
-    log.setLevel(logging.DEBUG)
-    log.addHandler(h)
+    debuglog = logging.getLogger()
+    debuglog.addHandler(h)
+    debuglog.setLevel('DEBUG')
     import os
     outputdir = './'
     # rm table files to force rebuild to get debug output
@@ -934,7 +930,8 @@ def rebuild_table(parser, tabmodule):
     except:
         print('no "{t}" found'.format(t=tablepyc))
     parser.build(tabmodule, outputdir=outputdir,
-                 write_tables=True, debug=True)
+                 write_tables=True, debug=True,
+                 debuglog=debuglog)
 
 
 if __name__ == '__main__':
