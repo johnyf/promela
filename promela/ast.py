@@ -20,6 +20,14 @@ DATATYPES = {
     'unsigned': None,
     'chan': None,
     'mtype': None}
+N = 0
+
+
+def generate_unique_node():
+    """Return a fresh integer to be used as node."""
+    global N
+    N += 1
+    return N
 
 
 def _indent(s, depth=1, skip=0):
@@ -82,11 +90,13 @@ class Proctype(object):
         return args
 
     def to_pg(self):
+        global N
+        N = 1
         g = nx.MultiDiGraph(name=self.name)
         g.locals = set()
         ine, out = self.body.to_pg(g)
         # root: explicit is better than implicit
-        u = misc.generate_unique_node()
+        u = generate_unique_node()
         g.add_node(u, color='red', context=None)
         g.root = u
         for v, d in ine:
@@ -287,7 +297,7 @@ class Sequence(list):
 
 class Node(object):
     def to_pg(self, g, context=None, **kw):
-        u = misc.generate_unique_node()
+        u = generate_unique_node()
         g.add_node(u, context=context)
         e = (u, dict(stmt=self))
         return [e], u
@@ -327,11 +337,11 @@ class Options(Node):
         assert self.options
         assert self.type in {'if', 'do'}
         # create target
-        target = misc.generate_unique_node()
+        target = generate_unique_node()
         g.add_node(target, context=context)
         # target != exit node ?
         if self.type == 'do':
-            od_exit = misc.generate_unique_node()
+            od_exit = generate_unique_node()
             g.add_node(od_exit, context=context)
         self_else = None
         self_has_else = False
@@ -446,7 +456,7 @@ def goto_to_pg(g, v, option_guard=None, context=None, **kw):
     else:
         stmt = Bool('true')
     e = (v, dict(stmt=stmt))
-    u = misc.generate_unique_node()
+    u = generate_unique_node()
     g.add_node(u, context=context)
     return [e], u
 
