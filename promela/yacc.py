@@ -752,7 +752,7 @@ class Parser(object):
 
     def p_const_expr_unary(self, p):
         """const_expr : MINUS const_expr %prec UMINUS"""
-        p[0] = self.ast.Unary(p[0], p[2])
+        p[0] = self.ast.Unary(p[1], p[2])
 
     def p_const_expr_binary(self, p):
         """const_expr : const_expr PLUS const_expr
