@@ -649,6 +649,35 @@ def test_nested_else():
     assert gm.is_isomorphic()
 
 
+def test_pg_node_order():
+    s = '''
+    proctype foo(){
+        bit x;
+        if
+        ::
+            do
+            :: x > 2; x = 1
+            :: else; break
+            od;
+            x = 1
+        :: x = 2
+        fi
+    }
+    '''
+    (proc,) = parser.parse(s)
+    g = proc.to_pg()
+    dump(g)
+    # Final indexing depends on the
+    # aux goto nodes created and the contraction order.
+    # The latter depend on the intermediate indexing,
+    # which is fixed syntactically
+    # (see `generate_unique_node`).
+    edges = {(1, 2), (1, 3), (2, 0), (3, 1),
+             (4, 0), (4, 2), (4, 3)}
+    assert set(g) == set(xrange(5)), g.nodes()
+    assert set(g.edges_iter()) == edges, g.edges()
+
+
 def test_labels():
     s = '''
     active proctype foo(){

@@ -111,7 +111,7 @@ class Proctype(object):
                 edge_label='stmt', relabel=True)
         # contract goto edges
         assert_gotos_are_admissible(g)
-        for u in g.nodes():
+        for u in sorted(g.nodes()):
             contract_goto_edges(g, u)
         h = map_uuid_to_int(g)
         return h
