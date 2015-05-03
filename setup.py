@@ -17,7 +17,7 @@ s = (
     "version = '{version}'\n").format(version=version)
 install_requires = [
     'ply == 3.4',
-    'networkx >= 2.0.dev']
+    'networkx >= 1.9.1']
 
 
 def build_parser_table():
