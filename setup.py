@@ -1,6 +1,6 @@
-import pip
 from setuptools import setup
-import sys
+# inline:
+# from promela import yacc
 
 
 description = (
@@ -31,9 +31,11 @@ def build_parser_table():
 if __name__ == '__main__':
     with open(VERSION_FILE, 'w') as f:
         f.write(s)
-    if 'egg_info' not in sys.argv:
-        pip.main(['install'] + install_requires)
+    try:
         build_parser_table()
+    except ImportError:
+        print('WARNING: `promela` could not cache parser tables '
+              '(ignore this if running only for "egg_info").')
     setup(
         name='promela',
         version=version,
