@@ -16,7 +16,7 @@ s = (
     '# This file was generated from setup.py\n'
     "version = '{version}'\n").format(version=version)
 install_requires = [
-    'ply == 3.4',
+    'ply >= 3.4',
     'networkx >= 1.9.1']
 
 
