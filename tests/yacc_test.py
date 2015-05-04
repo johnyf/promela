@@ -5,16 +5,13 @@ from nose.tools import assert_raises
 from promela import ast, yacc
 
 
-level = logging.WARNING
 logger = logging.getLogger(__name__)
-logger.setLevel(level)
-prefix = 'promela.yacc.'
-logs = {prefix + x for x in {'yacc', 'parser', 'ast'}}
-for log in logs:
-    logging.getLogger(log).setLevel(logging.ERROR)
+logger.setLevel('WARNING')
+log = logging.getLogger('promela.yacc')
+log.setLevel(logging.ERROR)
 h = logging.StreamHandler()
 log = logging.getLogger('promela.ast')
-log.setLevel(level)
+log.setLevel('WARNING')
 log.addHandler(h)
 
 
