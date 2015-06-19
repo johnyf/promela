@@ -441,7 +441,7 @@ class Goto(Node):
         self.label = label
 
     def __str__(self):
-        return 'goto: {l}'.format(l=self.label)
+        return 'goto {l}'.format(l=self.label)
 
     def to_pg(self, g, context=None, **kw):
         v = _format_label(self.label)
