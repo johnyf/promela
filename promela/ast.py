@@ -89,12 +89,21 @@ class Proctype(object):
             args = to_str(self.args)
         return args
 
-    def to_pg(self):
+    def to_pg(self, syntactic_else=False):
+        """Return program graph of proctype.
+
+        @param syntactic_else: if `True`, then "else"
+            statements in directly nested "if" or "do"
+            take precedence based on syntactic context.
+            The Promela language reference defines
+            "else" semantically, with respect to
+            the program graph.
+        """
         global N
         N = 1
         g = nx.MultiDiGraph(name=self.name)
         g.locals = set()
-        ine, out = self.body.to_pg(g)
+        ine, out = self.body.to_pg(g, syntactic_else=syntactic_else)
         # root: explicit is better than implicit
         u = generate_unique_node()
         g.add_node(u, color='red', context=None)
@@ -114,6 +123,9 @@ class Proctype(object):
         for u in sorted(g.nodes()):
             contract_goto_edges(g, u)
         h = map_uuid_to_int(g)
+        # other out-edges of each node with an `else`
+        if not syntactic_else:
+            semantic_else(h)
         return h
 
 
@@ -175,6 +187,18 @@ def map_uuid_to_int(g):
     h.root = umap[g.root]
     h.locals = g.locals
     return h
+
+
+def semantic_else(g):
+    """Set `Else.other_guards` to other edges with same source."""
+    for u, v, d in g.edges_iter(data=True):
+        stmt = d['stmt']
+        if not isinstance(stmt, Else):
+            continue
+        # is `Else`
+        stmt.other_guards = [
+            q['stmt'] for _, _, q in g.out_edges_iter(u, data=True)
+            if q['stmt'] != stmt]
 
 
 class NeverClaim(Proctype):
@@ -334,7 +358,8 @@ class Options(Node):
             return ('do', 'od')
 
     def to_pg(self, g, od_exit=None,
-              context=None, option_guard=None, **kw):
+              context=None, option_guard=None,
+              syntactic_else=False, **kw):
         logger.info('-- start flattening {t}'.format(t=self.type))
         assert self.options
         assert self.type in {'if', 'do'}
@@ -370,8 +395,12 @@ class Options(Node):
                 if len(ine) == 1:
                     assert not self_has_else, option
                     self_has_else = True
+                    if not syntactic_else:
+                        assert not option_has_else, option
                 elif len(ine) > 1:
                     option_has_else = True
+                    if not syntactic_else:
+                        assert not self_has_else, option
                 else:
                     raise Exception('option with no in edges')
             # collect in edges, except for own `else`

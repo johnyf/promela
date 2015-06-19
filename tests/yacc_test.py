@@ -646,6 +646,44 @@ def test_nested_else():
     assert gm.is_isomorphic()
 
 
+def test_double_else():
+    s = '''
+    proctype foo(){
+        bit x;
+        do
+        ::
+            if
+            :: x
+            :: else
+            fi
+        :: else
+        od
+    }
+    '''
+    # syntactic else = Promela language definition
+    (proc,) = parser.parse(s)
+    with assert_raises(AssertionError):
+        proc.to_pg()
+    # different from Promela language definition
+    g = proc.to_pg(syntactic_else=True)
+    active_else = 0
+    off_else = 0
+    for u, v, d in g.edges_iter(data=True):
+        stmt = d['stmt']
+        if isinstance(stmt, ast.Else):
+            other = stmt.other_guards
+            if other is None:
+                off_else += 1
+            else:
+                active_else += 1
+                assert len(other) == 1, other
+                (other_stmt,) = other
+                s = str(other_stmt)
+                assert s == 'x', s
+    assert active_else == 1, active_else
+    assert off_else == 1, off_else
+
+
 def test_pg_node_order():
     s = '''
     proctype foo(){
