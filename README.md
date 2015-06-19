@@ -9,24 +9,11 @@ A parser for the Promela modeling language.
 [PLY](https://pypi.python.org/pypi/ply/3.4) (Python `lex`-`yacc`) is used to generate the parser.
 Classes for a Promela abstract tree are included and used for representing the result of parsing.
 A short tutorial can be found in the file `doc.md`.
-
-
-Installation
-============
-
-Dependencies can be installed using `pip`:
+To install:
 
 ```
-pip install -r requirements.txt
+pip install promela
 ```
-
-and then the `promela` package using `setuptools`:
-
-```
-python setup.py install
-```
-
-Note that a development version of [`networkx`](https://github.com/networkx/networkx) is necessary, due to [a bug](https://github.com/networkx/networkx/pull/1278) (in v1.9.1) that affects the `promela` package.
 
 
 License
