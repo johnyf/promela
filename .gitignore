@@ -14,3 +14,6 @@ Icon?
 *.txt
 *.log
 *.egg-info
+*.html
+*.css
+
