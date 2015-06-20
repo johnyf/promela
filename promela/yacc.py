@@ -1,26 +1,13 @@
-"""Parser for Promela language using Python Lex - Yacc (PLY)"""
-# the following references were helpful in writing this:
-#
-# PLY related:
-#   http://www.juanjoconti.com.ar/files/python/ply-examples/
-#
-# Promela grammar:
-#   Holzmann G.J., The SPIN Model Checker,
-#       Addison-Wesley, 2004, pp. 365--368
-#   http://spinroot.com/spin/Man/Quick.html
-#
-# Pomegranate compiler (LL, not LALR):
-#   http://cs.nyu.edu/~tk883/research/pomegranate.pdf
-#   https://code.google.com/p/erigone/
-#       source/browse/trunk/src/compile/?r=27
-#
-# Promela parser in Haskell:
-#   https://github.com/hguenther/language-promela
-#
-#   https://bitbucket.org/simonhj/nano-promela
-#   https://code.google.com/p/spinja/
-#       source/browse/trunk/src/spinja/
-#       promela/compiler/parser/Promela.jj
+"""Parser for Promela, using Python Lex-Yacc (PLY).
+
+
+References
+==========
+
+Holzmann G.J., The SPIN Model Checker,
+    Addison-Wesley, 2004, pp. 365--368
+    http://spinroot.com/spin/Man/Quick.html
+"""
 from __future__ import absolute_import
 from __future__ import division
 import logging

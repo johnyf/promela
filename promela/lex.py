@@ -1,4 +1,4 @@
-"""Lexer for Promela language using Python Lex - Yacc (PLY)"""
+"""Lexer for Promela, using Python Lex-Yacc (PLY)."""
 import logging
 import ply.lex
 
