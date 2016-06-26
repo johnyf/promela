@@ -1030,5 +1030,5 @@ def dump_graph(g, fname='a.pdf', node_label='label',
         label = d.get(edge_label, ' ')
         label = '"{label}"'.format(label=label)
         h.add_edge(u, v, label=label)
-    pd = nx.to_pydot(h)
+    pd = nx.drawing.nx_pydot.to_pydot(h)
     pd.write_pdf(fname)
