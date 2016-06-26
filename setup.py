@@ -16,9 +16,9 @@ s = (
     '# This file was generated from setup.py\n'
     "version = '{version}'\n").format(version=version)
 install_requires = [
+    'networkx == 1.10',
     'ply >= 3.4',
     'pydot >= 1.1.0']
-    'networkx >= 1.9.1']
 
 
 def build_parser_table():
