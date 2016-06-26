@@ -17,6 +17,7 @@ s = (
     "version = '{version}'\n").format(version=version)
 install_requires = [
     'ply >= 3.4',
+    'pydot >= 1.1.0']
     'networkx >= 1.9.1']
 
 
@@ -46,7 +47,6 @@ if __name__ == '__main__':
         url='https://github.com/johnyf/promela',
         license='BSD',
         install_requires=install_requires,
-        extras_require={'dot': 'pydot'},
         tests_require=['nose'],
         packages=['promela'],
         package_dir={'promela': 'promela'})
