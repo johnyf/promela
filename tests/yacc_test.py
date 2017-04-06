@@ -618,7 +618,7 @@ def test_else():
     for u, v, d in g.edges_iter(data=True):
         c = d['stmt']
         if isinstance(c, ast.Else):
-            print c.other_guards
+            print(c.other_guards)
 
 
 def test_nested_else():
@@ -725,7 +725,7 @@ def test_labels():
     (proc,) = parser.parse(s)
     g = proc.to_pg()
     for u, d in g.nodes_iter(data=True):
-        print d.get('label')
+        print(d.get('label'))
 
 
 def test_remote_ref():
