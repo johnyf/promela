@@ -893,7 +893,8 @@ def cpp(s):
         p = subprocess.Popen(['cpp', '-E', '-x', 'c'],
                              stdin=subprocess.PIPE,
                              stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE)
+                             stderr=subprocess.PIPE,
+                             universal_newlines=True)
     except OSError as e:
         if e.errno == os.errno.ENOENT:
             raise Exception('C preprocessor (cpp) not found in path.')
