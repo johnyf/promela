@@ -19,6 +19,17 @@ install_requires = [
     'networkx == 1.10',
     'ply >= 3.4',
     'pydot >= 1.1.0']
+classifiers = [
+    'Development Status :: 2 - Pre-Alpha',
+    'Intended Audience :: Science/Research',
+    'License :: OSI Approved :: BSD License',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 2.7',
+    'Programming Language :: Python :: 3',
+    'Topic :: Scientific/Engineering']
+keywords = [
+    'promela', 'parser', 'syntax tree', 'ply', 'lex', 'yacc']
 
 
 def build_parser_table():
@@ -49,4 +60,6 @@ if __name__ == '__main__':
         install_requires=install_requires,
         tests_require=['nose'],
         packages=['promela'],
-        package_dir={'promela': 'promela'})
+        package_dir={'promela': 'promela'},
+        classifiers=classifiers,
+        keywords=keywords)
