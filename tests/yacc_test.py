@@ -707,8 +707,8 @@ def test_pg_node_order():
     # The latter depend on the intermediate indexing,
     # which is fixed syntactically
     # (see `generate_unique_node`).
-    edges = {(1, 2), (1, 3), (2, 0), (3, 1),
-             (4, 0), (4, 2), (4, 3)}
+    edges = {(0, 1), (0, 3), (0, 4), (2, 3),
+             (2, 4), (3, 1), (4, 2)}
     assert set(g) == set(range(5)), g.nodes()
     assert set(g.edges_iter()) == edges, g.edges()
 
