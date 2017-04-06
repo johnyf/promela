@@ -238,7 +238,7 @@ def doubly_nested_if_pg_test():
     g = tree[0].to_pg()
     dump(g)
     h = nx.MultiDiGraph()
-    for i in xrange(6):
+    for i in range(6):
         h.add_edge(0, 1)
     assert nx.is_isomorphic(g, h)
 
@@ -709,7 +709,7 @@ def test_pg_node_order():
     # (see `generate_unique_node`).
     edges = {(1, 2), (1, 3), (2, 0), (3, 1),
              (4, 0), (4, 2), (4, 3)}
-    assert set(g) == set(xrange(5)), g.nodes()
+    assert set(g) == set(range(5)), g.nodes()
     assert set(g.edges_iter()) == edges, g.edges()
 
 

@@ -590,7 +590,7 @@ class VarDef(Node):
             if self.len is None:
                 v = DATATYPES[t]()
             else:
-                v = [DATATYPES[t]() for i in xrange(self.len)]
+                v = [DATATYPES[t]() for i in range(self.len)]
         elif t == 'unsigned':
             n = self.bitwidth
 
@@ -600,7 +600,7 @@ class VarDef(Node):
             if self.len is None:
                 v = Unsigned()
             else:
-                v = [Unsigned() for i in xrange(self.len)]
+                v = [Unsigned() for i in range(self.len)]
         else:
             raise TypeError('unknown type "{t}"'.format(t=t))
         # global scope ?
