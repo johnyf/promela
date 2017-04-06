@@ -863,7 +863,7 @@ class Assignment(Node):
                 for x in v:
                     if 'ctypes' in str(type(x)):
                         v[v.index(x)] = int(x.value)
-        exec s in g, l
+        exec(s, g, l)
         for k in og:
             og[k] = g[k]
         for k in ol:
