@@ -77,7 +77,7 @@ class Parser(object):
         """
         if tabmodule is None:
             tabmodule = self.tabmodule
-        if debuglog is None:
+        if debug and debuglog is None:
             debuglog = self.logger
         self.parser = ply.yacc.yacc(
             method='LALR',
