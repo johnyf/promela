@@ -664,12 +664,12 @@ class SymbolTable(object):
             return False
         if set(self.locals) != set(other.locals):
             return False
-        for pid, d in self.locals.iteritems():
+        for pid, d in self.locals.items():
             if d != other.locals[pid]:
                 return False
         if set(self.pids) != set(other.pids):
             return False
-        for pid, d in self.pids.iteritems():
+        for pid, d in self.pids.items():
             q = other.pids[pid]
             if d['name'] != q['name']:
                 return False
@@ -706,7 +706,7 @@ class SymbolTable(object):
         new.locals = copy.deepcopy(self.locals)
         new.pids = {k: {'name': d['name'],
                         'pc': d['pc']}
-                    for k, d in self.pids.iteritems()}
+                    for k, d in self.pids.items()}
         new.types = self.types
         return new
 
@@ -809,7 +809,7 @@ class Expression(Node):
     def eval(self, g, l):
         s = str(self)
         g = dict(g)
-        for k, v in g.iteritems():
+        for k, v in g.items():
             if 'ctypes' in str(type(v)):
                 g[k] = int(v.value)
             elif isinstance(v, list):
@@ -817,7 +817,7 @@ class Expression(Node):
                     if 'ctypes' in str(type(x)):
                         v[v.index(x)] = int(x.value)
         l = dict(l)
-        for k, v in l.iteritems():
+        for k, v in l.items():
             if 'ctypes' in str(type(v)):
                 l[k] = int(v.value)
             elif isinstance(v, list):
@@ -848,7 +848,7 @@ class Assignment(Node):
         og = g
         ol = l
         g = dict(g)
-        for k, v in g.iteritems():
+        for k, v in g.items():
             if 'ctypes' in str(type(v)):
                 g[k] = int(v.value)
             elif isinstance(v, list):
@@ -856,7 +856,7 @@ class Assignment(Node):
                     if 'ctypes' in str(type(x)):
                         v[v.index(x)] = int(x.value)
         l = dict(l)
-        for k, v in l.iteritems():
+        for k, v in l.items():
             if 'ctypes' in str(type(v)):
                 l[k] = int(v.value)
             elif isinstance(v, list):
@@ -1014,7 +1014,7 @@ def dump_graph(g, fname='a.pdf', node_label='label',
     if relabel:
         mapping = {u: i for i, u in enumerate(g)}
         g = nx.relabel_nodes(g, mapping)
-        inv_mapping = {v: k for k, v in mapping.iteritems()}
+        inv_mapping = {v: k for k, v in mapping.items()}
         s = list()
         s.append('mapping of nodes:')
         for k in sorted(inv_mapping):
