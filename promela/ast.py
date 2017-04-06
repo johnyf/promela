@@ -120,7 +120,7 @@ class Proctype(object):
                 edge_label='stmt', relabel=True)
         # contract goto edges
         assert_gotos_are_admissible(g)
-        for u in sorted(g.nodes()):
+        for u in sorted(g.nodes(), key=str):
             contract_goto_edges(g, u)
         h = map_uuid_to_int(g)
         # other out-edges of each node with an `else`
@@ -175,7 +175,7 @@ def assert_gotos_are_admissible(g):
 
 def map_uuid_to_int(g):
     """Reinplace uuid nodes with integers."""
-    umap = {u: i for i, u in enumerate(sorted(g))}
+    umap = {u: i for i, u in enumerate(sorted(g, key=str))}
     h = nx.MultiDiGraph(name=g.name)
     for u, d in g.nodes_iter(data=True):
         p = umap[u]
