@@ -198,7 +198,7 @@ def semantic_else(g):
             continue
         # is `Else`
         stmt.other_guards = [
-            q['stmt'] for _, _, q in g.out_edges_iter(u, data=True)
+            q['stmt'] for _, _, q in g.out_edges(u, data=True)
             if q['stmt'] != stmt]
 
 
