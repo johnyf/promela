@@ -113,7 +113,8 @@ class Proctype(object):
         # rm unreachable nodes
         S = nx.descendants(g, g.root)
         S.add(g.root)
-        [g.remove_node(x) for x in g.nodes() if x not in S]
+        nodes_to_rm = {x for x in g.nodes() if x not in S}
+        [g.remove_node(x) for x in nodes_to_rm]
         if logger.getEffectiveLevel() == 1:
             dump_graph(
                 g, 'dbg.pdf', node_label='context',
@@ -167,7 +168,7 @@ def assert_gotos_are_admissible(g):
             assert 'stmt' in d
             stmt = d['stmt']
             assert stmt != 'goto', stmt
-    for u, d in g.nodes_iter(data=True):
+    for u, d in g.nodes(data=True):
         assert 'context' in d
     for u, v, d in g.edges_iter(data=True):
         assert 'stmt' in d
@@ -177,7 +178,7 @@ def map_uuid_to_int(g):
     """Reinplace uuid nodes with integers."""
     umap = {u: i for i, u in enumerate(sorted(g, key=str))}
     h = nx.MultiDiGraph(name=g.name)
-    for u, d in g.nodes_iter(data=True):
+    for u, d in g.nodes(data=True):
         p = umap[u]
         h.add_node(p, **d)
     for u, v, key, d in g.edges_iter(keys=True, data=True):
@@ -1022,7 +1023,7 @@ def dump_graph(g, fname='a.pdf', node_label='label',
             s.append('{k}: {v}'.format(k=k, v=v))
         print('\n'.join(s))
     h = nx.MultiDiGraph()
-    for u, d in g.nodes_iter(data=True):
+    for u, d in g.nodes(data=True):
         label = d.get(node_label, u)
         label = '"{label}"'.format(label=label)
         h.add_node(u, label=label)

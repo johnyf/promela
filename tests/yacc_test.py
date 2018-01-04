@@ -724,7 +724,7 @@ def test_labels():
     '''
     (proc,) = parser.parse(s)
     g = proc.to_pg()
-    for u, d in g.nodes_iter(data=True):
+    for u, d in g.nodes(data=True):
         print(d.get('label'))
 
 
