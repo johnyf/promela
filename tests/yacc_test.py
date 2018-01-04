@@ -615,7 +615,7 @@ def test_else():
     (proc,) = parser.parse(s)
     g = proc.to_pg()
     dump(g)
-    for u, v, d in g.edges_iter(data=True):
+    for u, v, d in g.edges(data=True):
         c = d['stmt']
         if isinstance(c, ast.Else):
             print(c.other_guards)
@@ -668,7 +668,7 @@ def test_double_else():
     g = proc.to_pg(syntactic_else=True)
     active_else = 0
     off_else = 0
-    for u, v, d in g.edges_iter(data=True):
+    for u, v, d in g.edges(data=True):
         stmt = d['stmt']
         if isinstance(stmt, ast.Else):
             other = stmt.other_guards
@@ -710,7 +710,7 @@ def test_pg_node_order():
     edges = {(0, 1), (0, 3), (0, 4), (2, 3),
              (2, 4), (3, 1), (4, 2)}
     assert set(g) == set(range(5)), g.nodes()
-    assert set(g.edges_iter()) == edges, g.edges()
+    assert set(g.edges()) == edges, g.edges()
 
 
 def test_labels():

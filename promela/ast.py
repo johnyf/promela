@@ -139,13 +139,13 @@ def contract_goto_edges(g, u):
         return
     assert n == 1, n
     # single outgoing edge: safe to contract
-    _, q, d = next(g.edges_iter(u, data=True))
+    _, q, d = next(iter(g.edges(u, data=True)))
     if d['stmt'] != 'goto':
         return
     # goto
     assert u != q, 'loop of `goto`s detected'
     # the source node context (atomic or d_step) is overwritten
-    for p, _, d in g.in_edges_iter(u, data=True):
+    for p, _, d in g.in_edges(u, data=True):
         g.add_edge(p, q, **d)
     # but the source node label is preserved
     u_label = g.node[u].get('labels')
@@ -164,13 +164,13 @@ def assert_gotos_are_admissible(g):
     for u in g:
         if g.out_degree(u) <= 1:
             continue
-        for _, v, d in g.edges_iter(u, data=True):
+        for _, v, d in g.edges(u, data=True):
             assert 'stmt' in d
             stmt = d['stmt']
             assert stmt != 'goto', stmt
     for u, d in g.nodes(data=True):
         assert 'context' in d
-    for u, v, d in g.edges_iter(data=True):
+    for u, v, d in g.edges(data=True):
         assert 'stmt' in d
 
 
@@ -181,7 +181,7 @@ def map_uuid_to_int(g):
     for u, d in g.nodes(data=True):
         p = umap[u]
         h.add_node(p, **d)
-    for u, v, key, d in g.edges_iter(keys=True, data=True):
+    for u, v, key, d in g.edges(keys=True, data=True):
         p = umap[u]
         q = umap[v]
         h.add_edge(p, q, key=key, **d)
@@ -192,7 +192,7 @@ def map_uuid_to_int(g):
 
 def semantic_else(g):
     """Set `Else.other_guards` to other edges with same source."""
-    for u, v, d in g.edges_iter(data=True):
+    for u, v, d in g.edges(data=True):
         stmt = d['stmt']
         if not isinstance(stmt, Else):
             continue
@@ -1027,7 +1027,7 @@ def dump_graph(g, fname='a.pdf', node_label='label',
         label = d.get(node_label, u)
         label = '"{label}"'.format(label=label)
         h.add_node(u, label=label)
-    for u, v, d in g.edges_iter(data=True):
+    for u, v, d in g.edges(data=True):
         label = d.get(edge_label, ' ')
         label = '"{label}"'.format(label=label)
         h.add_edge(u, v, label=label)
