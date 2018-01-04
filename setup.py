@@ -16,7 +16,7 @@ s = (
     '# This file was generated from setup.py\n'
     "version = '{version}'\n").format(version=version)
 install_requires = [
-    'networkx == 1.10',
+    'networkx >= 2.0',
     'ply >= 3.4',
     'pydot >= 1.1.0']
 classifiers = [
