@@ -55,6 +55,7 @@ if __name__ == '__main__':
         version=version,
         description=description,
         long_description=open(README).read(),
+        long_description_content_type='text/markdown',
         author='Ioannis Filippidis',
         author_email='jfilippidis@gmail.com',
         url='https://github.com/johnyf/promela',
