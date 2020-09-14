@@ -148,9 +148,9 @@ def contract_goto_edges(g, u):
     for p, _, d in g.in_edges(u, data=True):
         g.add_edge(p, q, **d)
     # but the source node label is preserved
-    u_label = g.node[u].get('labels')
+    u_label = g.nodes[u].get('labels')
     if u_label is not None:
-        g.node[q].setdefault('labels', set()).update(u_label)
+        g.nodes[q].setdefault('labels', set()).update(u_label)
     g.remove_node(u)
     if u == g.root:
         g.root = q
