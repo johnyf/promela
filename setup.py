@@ -17,7 +17,7 @@ s = (
     "version = '{version}'\n").format(version=version)
 install_requires = [
     'networkx >= 2.0',
-    'ply >= 3.4',
+    'ply >= 3.4, <= 3.10',
     'pydot >= 1.1.0']
 classifiers = [
     'Development Status :: 2 - Pre-Alpha',
