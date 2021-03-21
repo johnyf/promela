@@ -897,7 +897,7 @@ class Printf(Node):
         self.args = args
 
     def __str__(self):
-        return 'printf()'.format(s=self.s, args=self.args)
+        return 'printf({s})'.format(s=self.s, args=self.args)
 
 
 class Operator(object):
