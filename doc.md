@@ -1,10 +1,10 @@
 This package provides a lexer, parser, and abstract syntax tree (AST) for the
-[Promela](http://en.wikipedia.org/wiki/Promela) modeling language.
+[Promela](https://en.wikipedia.org/wiki/Promela) modeling language.
 The lexer and parser are generated using [PLY](
-    https://pypi.python.org/pypi/ply/3.4)
+    https://pypi.org/project/ply/3.4/)
 (Python `lex`-`yacc`).
-The [grammar](http://spinroot.com/spin/Man/grammar.html) is based on that used
-in the [SPIN](http://spinroot.com/spin/whatispin.html) model checker (in the
+The [grammar](https://spinroot.com/spin/Man/grammar.html) is based on that used
+in the [SPIN](https://spinroot.com/spin/whatispin.html) model checker (in the
 files `spin.y` and `spinlex.c` of SPIN's source distribution), with
 modifications where needed.
 
@@ -74,9 +74,9 @@ returns themselves, a. Almost all statements are represented as either an
 using the edge attribute `"stmt"`.
 
 The program graph is represented as a [multi-digraph](
-    http://en.wikipedia.org/wiki/Multigraph)
+    https://en.wikipedia.org/wiki/Multigraph)
 using [`networkx.MultiDiGraph`](
-    https://networkx.github.io/documentation/latest/reference/classes.multidigraph.html).
+    https://networkx.org/documentation/latest/reference/classes/multidigraph.html).
 A multi-digraph is necessary, because two nodes in the program graph may be
 connected by two edges, each edge labeled with a different statement.
 For example, this is the case in the code fragment:

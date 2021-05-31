@@ -6,7 +6,7 @@ References
 
 Holzmann G.J., The SPIN Model Checker,
     Addison-Wesley, 2004, pp. 365--368
-    http://spinroot.com/spin/Man/Quick.html
+    https://spinroot.com/spin/Man/Quick.html
 """
 from __future__ import absolute_import
 from __future__ import division
@@ -31,7 +31,7 @@ class Parser(object):
     logger = logger
     tabmodule = TABMODULE
     start = 'program'
-    # http://spinroot.com/spin/Man/operators.html
+    # https://spinroot.com/spin/Man/operators.html
     # spin.y
     # lowest to highest
     precedence = (
