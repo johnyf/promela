@@ -6,8 +6,10 @@ About
 =====
 
 A parser for the [Promela modeling language](https://en.wikipedia.org/wiki/Promela).
-[PLY](https://pypi.python.org/pypi/ply/3.4) (Python `lex`-`yacc`) is used to generate the parser.
-Classes for a Promela abstract tree are included and used for representing the result of parsing.
+[PLY](https://pypi.python.org/pypi/ply/3.4) (Python `lex`-`yacc`) is used to
+generate the parser. Classes for a Promela abstract tree are included and used
+for representing the result of parsing.
+
 A short tutorial can be found in the file [`doc.md`](
     https://github.com/johnyf/promela/blob/master/doc.md).
 To install:
