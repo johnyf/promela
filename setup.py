@@ -1,3 +1,4 @@
+"""Installation script."""
 from setuptools import setup
 # inline:
 # from promela import yacc
