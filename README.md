@@ -21,7 +21,9 @@ pip install promela
 
 License
 =======
-[BSD-3](http://opensource.org/licenses/BSD-3-Clause), see `LICENSE` file.
+
+[3-clause BSD](https://opensource.org/licenses/BSD-3-Clause),
+see the file `LICENSE`.
 
 
 [build_img]: https://travis-ci.org/johnyf/promela.svg?branch=main
