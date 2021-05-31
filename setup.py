@@ -3,23 +3,23 @@ from setuptools import setup
 # from promela import yacc
 
 
-description = (
+DESCRIPTION = (
     'Parser and abstract syntax tree for the Promela modeling language.')
 README = 'README.md'
 VERSION_FILE = 'promela/_version.py'
 MAJOR = 0
 MINOR = 0
 MICRO = 4
-version = '{major}.{minor}.{micro}'.format(
+VERSION = '{major}.{minor}.{micro}'.format(
     major=MAJOR, minor=MINOR, micro=MICRO)
-s = (
+VERSION_FILE_TEXT = (
     '# This file was generated from setup.py\n'
-    "version = '{version}'\n").format(version=version)
-install_requires = [
+    "version = '{version}'\n").format(version=VERSION)
+INSTALL_REQUIRES = [
     'networkx >= 2.0',
     'ply >= 3.4, <= 3.10',
     'pydot >= 1.1.0']
-classifiers = [
+CLASSIFIERS = [
     'Development Status :: 2 - Pre-Alpha',
     'Intended Audience :: Science/Research',
     'License :: OSI Approved :: BSD License',
@@ -30,7 +30,7 @@ classifiers = [
     'Programming Language :: Python :: 3.7',
     'Programming Language :: Python :: 3.8',
     'Topic :: Scientific/Engineering']
-keywords = [
+KEYWORDS = [
     'promela', 'parser', 'syntax tree', 'ply', 'lex', 'yacc']
 
 
@@ -44,7 +44,7 @@ def build_parser_table():
 
 if __name__ == '__main__':
     with open(VERSION_FILE, 'w') as f:
-        f.write(s)
+        f.write(VERSION_FILE_TEXT)
     try:
         build_parser_table()
     except ImportError:
@@ -52,17 +52,17 @@ if __name__ == '__main__':
               '(ignore this if running only for "egg_info").')
     setup(
         name='promela',
-        version=version,
-        description=description,
+        version=VERSION,
+        description=DESCRIPTION,
         long_description=open(README).read(),
         long_description_content_type='text/markdown',
         author='Ioannis Filippidis',
         author_email='jfilippidis@gmail.com',
         url='https://github.com/johnyf/promela',
         license='BSD',
-        install_requires=install_requires,
-        tests_require=['nose'],
+        install_requires=INSTALL_REQUIRES,
+        tests_require=['pytest'],
         packages=['promela'],
         package_dir={'promela': 'promela'},
-        classifiers=classifiers,
-        keywords=keywords)
+        classifiers=CLASSIFIERS,
+        keywords=KEYWORDS)
