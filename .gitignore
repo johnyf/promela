@@ -8,6 +8,7 @@ Icon?
 
 *.*~
 __pycache__
+.pytest_cache/
 *.pyc
 *.swp
 *.pdf
