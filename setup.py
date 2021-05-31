@@ -72,7 +72,7 @@ if __name__ == '__main__':
         license='BSD',
         python_requires=PYTHON_REQUIRES,
         install_requires=INSTALL_REQUIRES,
-        tests_require=['nose'],
+        tests_require=['pytest'],
         packages=['promela'],
         package_dir={'promela': 'promela'},
         classifiers=CLASSIFIERS,

@@ -1,7 +1,8 @@
 import logging
+
 import networkx as nx
 import networkx.algorithms.isomorphism as iso
-from nose.tools import assert_raises
+from pytest import raises
 from promela import ast, yacc
 
 
@@ -345,7 +346,7 @@ def invalid_label_pg_test():
     }
     '''
     tree = parser.parse(s)
-    with assert_raises(Exception):
+    with raises(Exception):
         tree[0].to_pg()
 
 
@@ -432,7 +433,7 @@ def goto_self_loop_pg_test():
     }
     '''
     tree = parser.parse(s)
-    with assert_raises(AssertionError):
+    with raises(AssertionError):
         tree[0].to_pg()
 
 
@@ -662,7 +663,7 @@ def test_double_else():
     '''
     # syntactic else = Promela language definition
     (proc,) = parser.parse(s)
-    with assert_raises(AssertionError):
+    with raises(AssertionError):
         proc.to_pg()
     # different from Promela language definition
     g = proc.to_pg(syntactic_else=True)

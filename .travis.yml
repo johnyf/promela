@@ -14,7 +14,7 @@ install:
 
 script:
   - cd tests/
-  - nosetests --with-coverage --cover-package=promela
+  - pytest -v .
 
 after_success:
   - coveralls
