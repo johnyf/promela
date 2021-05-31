@@ -6,6 +6,11 @@ from setuptools import setup
 DESCRIPTION = (
     'Parser and abstract syntax tree for the Promela modeling language.')
 README = 'README.md'
+PROJECT_URLS = {
+    'Bug Tracker':
+        'https://github.com/johnyf/promela/issues',
+    'Documentation':
+        'https://github.com/johnyf/promela/blob/main/doc.md',}
 VERSION_FILE = 'promela/_version.py'
 MAJOR = 0
 MINOR = 0
@@ -61,6 +66,7 @@ if __name__ == '__main__':
         author='Ioannis Filippidis',
         author_email='jfilippidis@gmail.com',
         url='https://github.com/johnyf/promela',
+        project_urls=PROJECT_URLS,
         license='BSD',
         install_requires=INSTALL_REQUIRES,
         tests_require=['pytest'],
