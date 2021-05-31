@@ -50,11 +50,13 @@ if __name__ == '__main__':
     except ImportError:
         print('WARNING: `promela` could not cache parser tables '
               '(ignore this if running only for "egg_info").')
+    with open(README) as f:
+        long_description = f.read()
     setup(
         name='promela',
         version=VERSION,
         description=DESCRIPTION,
-        long_description=open(README).read(),
+        long_description=long_description,
         long_description_content_type='text/markdown',
         author='Ioannis Filippidis',
         author_email='jfilippidis@gmail.com',
