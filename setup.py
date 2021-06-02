@@ -20,6 +20,7 @@ VERSION = '{major}.{minor}.{micro}'.format(
 VERSION_FILE_TEXT = (
     '# This file was generated from setup.py\n'
     "version = '{version}'\n").format(version=VERSION)
+PYTHON_REQUIRES = '>=3.6'
 INSTALL_REQUIRES = [
     'networkx >= 2.0',
     'ply >= 3.4, <= 3.10',
@@ -68,6 +69,7 @@ if __name__ == '__main__':
         url='https://github.com/johnyf/promela',
         project_urls=PROJECT_URLS,
         license='BSD',
+        python_requires=PYTHON_REQUIRES,
         install_requires=INSTALL_REQUIRES,
         tests_require=['nose'],
         packages=['promela'],
