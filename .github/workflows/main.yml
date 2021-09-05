@@ -1,0 +1,44 @@
+---
+# configuration for GitHub Actions
+on:
+    push:
+    pull_request:
+    schedule:
+        - cron: '30 5 5 * *'
+jobs:
+    build:
+        name: Build
+        runs-on: ubuntu-20.04
+        strategy:
+            matrix:
+                python-version: [
+                    '3.9',
+                    '3.10',
+                    ]
+        steps:
+            - uses: actions/checkout@v2
+            - name: Install APT packages
+              run: |
+                sudo apt install \
+                    graphviz
+            - name: Set up Python ${{ matrix.python-version }}
+              uses: actions/setup-python@v2
+              with:
+                  python-version: ${{ matrix.python-version }}
+            - name: Update Python environment
+              run: |
+                pip install --upgrade pip setuptools
+            - name: Display version of GraphViz `dot`
+              run: |
+                dot -V
+            - name: Install `promela`
+              run: |
+                python setup.py sdist
+                pip install dist/promela-*.tar.gz
+            - name: Install test dependencies
+              run: |
+                pip install pytest
+            - name: Run `promela` tests
+              run: |
+                cd tests/
+                pytest -v .

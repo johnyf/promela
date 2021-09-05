@@ -1,5 +1,4 @@
-[![Build Status][build_img]][travis]
-[![Coverage Status][coverage]][coveralls]
+[![Build Status][build_img]][github_actions]
 
 
 About
@@ -26,7 +25,5 @@ License
 see the file `LICENSE`.
 
 
-[build_img]: https://travis-ci.org/johnyf/promela.svg?branch=main
-[travis]: https://travis-ci.org/johnyf/promela
-[coverage]: https://coveralls.io/repos/johnyf/promela/badge.svg?branch=main
-[coveralls]: https://coveralls.io/r/johnyf/promela?branch=main
+[build_img]: https://github.com/johnyf/promela/actions/workflows/main.yml/badge.svg?branch=main
+[github_actions]: https://github.com/johnyf/promela/actions
