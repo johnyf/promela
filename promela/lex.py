@@ -121,17 +121,17 @@ class Lexer(object):
     # operators
     t_PLUS = r'\+'
     t_INCR = r'\+\+'
-    t_MINUS = r'-'
-    t_DECR = r'--'
+    t_MINUS = r'\-'
+    t_DECR = r'\-\-'
     t_TIMES = r'\*'
     t_DIVIDE = r'/'
     t_MOD = r'%'
     t_OR = r'\|'
-    t_AND = r'&'
-    t_NOT = r'~'
+    t_AND = r'\&'
+    t_NOT = r'\~'
     t_XOR = r'\^'
     t_LOR = r'\|\|'
-    t_LAND = r'&&'
+    t_LAND = r'\&\&'
     t_LNOT = r'!'
     t_TX2 = r'!!'
     t_LT = r'<'
@@ -145,12 +145,12 @@ class Lexer(object):
     t_RCV = r'\?'
     t_R_RCV = r'\?\?'
     t_AT = r'@'
-    t_EQUIV = r'<->'
+    t_EQUIV = r'<\->'
     # assignment
     t_EQUALS = r'='
     # temporal operators
     t_ALWAYS = r'\[\]'
-    t_EVENTUALLY = r'\<\>'
+    t_EVENTUALLY = r'<>'
     # delimeters
     t_LPAREN = r'\('
     t_RPAREN = r'\)'
@@ -178,11 +178,11 @@ class Lexer(object):
         return t
 
     def t_ltl_ARROW(self, t):
-        r'->'
+        r'\->'
         t.type = 'IMPLIES'
         return t
 
-    t_INITIAL_ARROW = r'->'
+    t_INITIAL_ARROW = r'\->'
 
     def t_PREPROC(self, t):
         r'\#.*'
