@@ -425,7 +425,7 @@ class Parser(object):
     def p_step_labeled(self, p):
         """step : NAME COLON one_decl"""
         raise Exception(
-            'label preceding declaration: {s}'.format(s=p[3]))
+            f'label preceding declaration: {p[3]}')
 
     def p_step_3(self, p):
         """step : NAME COLON XR
@@ -686,7 +686,7 @@ class Parser(object):
                 | GET_P LPAREN expr RPAREN
         """
         p[0] = p[1]
-        warnings.warn('"{s}" not implemented'.format(s=p[1]))
+        warnings.warn(f'"{p[1]}" not implemented')
 
     def p_expr_run(self, p):
         """expr : RUN aname LPAREN args RPAREN opt_priority"""
@@ -884,7 +884,7 @@ class Parser(object):
         """empty : """
 
     def p_error(self, p):
-        raise Exception('syntax error at: {p}'.format(p=p))
+        raise Exception(f'syntax error at: {p}')
 
 
 def cpp(s):
@@ -902,8 +902,8 @@ def cpp(s):
             raise
     logger.debug('cpp input:\n' + s)
     stdout, stderr = p.communicate(s)
-    logger.debug('cpp returned: {c}'.format(c=p.returncode))
-    logger.debug('cpp stdout:\n {out}'.format(out=stdout))
+    logger.debug(f'cpp returned: {p.returncode}')
+    logger.debug(f'cpp stdout:\n {stdout}')
     return stdout
 
 
@@ -921,11 +921,11 @@ def rebuild_table(parser, tabmodule):
     try:
         os.remove(tablepy)
     except:
-        print('no "{t}" found'.format(t=tablepy))
+        print(f'no "{tablepy}" found')
     try:
         os.remove(tablepyc)
     except:
-        print('no "{t}" found'.format(t=tablepyc))
+        print(f'no "{tablepyc}" found')
     parser.build(tabmodule, outputdir=outputdir,
                  write_tables=True, debug=True,
                  debuglog=debuglog)
