@@ -741,7 +741,7 @@ class TypeDef(Node):
         self.decls = decls
 
     def __str__(self):
-        return 'typedef {name} {\ndecls\n}'.format(
+        return 'typedef {name} {decls}'.format(
             name=self.name, decls=to_str(self.decls))
 
     def exe(self, t):
