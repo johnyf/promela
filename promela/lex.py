@@ -207,5 +207,5 @@ class Lexer(object):
         t.lineno += t.value.count('\n')
 
     def t_error(self, t):
-        logger.error('Illegal character "{s}"'.format(s=t.value[0]))
+        logger.error(f'Illegal character "{t.value[0]}"')
         t.lexer.skip(1)

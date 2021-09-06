@@ -16,11 +16,10 @@ VERSION_FILE = 'promela/_version.py'
 MAJOR = 0
 MINOR = 0
 MICRO = 4
-VERSION = '{major}.{minor}.{micro}'.format(
-    major=MAJOR, minor=MINOR, micro=MICRO)
+VERSION = f'{MAJOR}.{MINOR}.{MICRO}'
 VERSION_FILE_TEXT = (
     '# This file was generated from setup.py\n'
-    "version = '{version}'\n").format(version=VERSION)
+    f"version = '{VERSION}'\n")
 PYTHON_REQUIRES = '>=3.9'
 INSTALL_REQUIRES = [
     'networkx >= 2.0',

@@ -63,17 +63,16 @@ class Proctype(object):
         self.provided = provided
 
     def __str__(self):
-        return "Proctype('{name}')".format(name=self.name)
+        return f"Proctype('{self.name}')"
 
     def to_str(self):
+        active = self._active_str()
+        args = self._args_str()
+        body = _indent(to_str(self.body))
         return (
-            '{active} proctype {name}({args}){{\n'
-            '{body}\n'
-            '}}\n\n').format(
-                active=self._active_str(),
-                name=self.name,
-                args=self._args_str(),
-                body=_indent(to_str(self.body)))
+            f'{active} proctype {self.name}({args}){{\n'
+            f'{body}\n'
+            '}}\n\n')
 
     def _active_str(self):
         if self.active is None:
@@ -227,7 +226,7 @@ class Program(list):
 
     def __repr__(self):
         c = super(Program, self).__repr__()
-        return 'Program({c})'.format(c=c)
+        return f'Program({c})'
 
     def to_table(self):
         """Return global definitions, proctypes, and LTL blocks.
@@ -249,7 +248,7 @@ class LTL(object):
         self.formula = formula
 
     def __repr__(self):
-        return 'LTL({f})'.format(f=repr(self.formula))
+        return f'LTL({self.formula!r})'
 
     def __str__(self):
         return 'ltl {' + str(self.formula) + '}'
@@ -272,8 +271,10 @@ class Sequence(list):
 
     def __repr__(self):
         l = super(Sequence, self).__repr__()
-        return 'Sequence({l}, context={c}, is_option={isopt})'.format(
-            l=l, c=self.context, isopt=self.is_option)
+        return (
+            f'Sequence({l}, '
+            f'context={self.context}, '
+            f'is_option={self.is_option})')
 
     def to_pg(self, g, context=None, option_guard=None, **kw):
         # set context
@@ -343,10 +344,8 @@ class Options(Node):
         for option in self.options:
             option_guard = _indent(to_str(option[0]), skip=1)
             w = [_indent(to_str(x)) for x in option[1:]]
-            c.append(
-                ':: {option_guard}{tail}\n'.format(
-                    option_guard=option_guard,
-                    tail=(' ->\n' + '\n'.join(w)) if w else ''))
+            tail = (' ->\n' + '\n'.join(w)) if w else ''
+            c.append(f':: {option_guard}{tail}\n')
         c.append(b)
         c.append(';\n')
         return ''.join(c)
@@ -361,7 +360,7 @@ class Options(Node):
     def to_pg(self, g, od_exit=None,
               context=None, option_guard=None,
               syntactic_else=False, **kw):
-        logger.info('-- start flattening {t}'.format(t=self.type))
+        logger.info(f'-- start flattening {self.type}')
         assert self.options
         assert self.type in {'if', 'do'}
         # create target
@@ -377,7 +376,7 @@ class Options(Node):
         edges = list()
         else_ine = None
         for option in self.options:
-            logger.debug('option: {opt}'.format(opt=option))
+            logger.debug(f'option: {option}')
             t = option.to_pg(g, od_exit=od_exit, context=context, **kw)
             assert t is not None  # decls filtered by `Sequence`
             ine, out = t
@@ -428,7 +427,7 @@ class Options(Node):
         elif self.type == 'do':
             out = od_exit
         else:
-            raise Exception('Unknown type: {t}'.format(t=out))
+            raise Exception(f'Unknown type: {out}')
         # is not itself an option guard ?
         if option_guard:
             logger.debug('is option guard')
@@ -437,9 +436,8 @@ class Options(Node):
             in_edges = [edge]
         else:
             in_edges = edges
-        logger.debug('in edges: {ie}, out: {out}\n'.format(
-            ie=in_edges, out=out))
-        logger.info('-- end flattening {t}'.format(t=self.type))
+        logger.debug(f'in edges: {in_edges}, out: {out}\n')
+        logger.info(f'-- end flattening {self.type}')
         assert out in g
         return in_edges, out
 
@@ -471,7 +469,7 @@ class Goto(Node):
         self.label = label
 
     def __str__(self):
-        return 'goto {l}'.format(l=self.label)
+        return f'goto {self.label}'
 
     def to_pg(self, g, context=None, **kw):
         v = _format_label(self.label)
@@ -499,7 +497,7 @@ class Label(Node):
         self.body = body
 
     def to_str(self):
-        return '{l}: {b}'.format(l=self.label, b=to_str(self.body))
+        return f'{self.label}: {to_str(self.body)}'
 
     def to_pg(self, g, option_guard=None, context=None, **kw):
         if option_guard is not None:
@@ -522,7 +520,7 @@ class Label(Node):
 
 
 def _format_label(label):
-    return 'label_{l}'.format(l=label)
+    return f'label_{label}'
 
 
 # TODO: check that referenced types exist, before adding typedef
@@ -553,13 +551,13 @@ class VarDef(Node):
         # TODO message types
 
     def __repr__(self):
-        return 'VarDef({t}, {v})'.format(t=self.type, v=self.name)
+        return f'VarDef({self.type}, {self.name})'
 
     def to_str(self):
-        s = '{type} {varname}{len}'.format(
-            type=self._type_str(),
-            varname=self.name,
-            len='[{n}]'.format(n=self.len) if self.len else '')
+        type = self._type_str()
+        varname = self.name
+        length = f'[{self.len}]' if self.len else ''
+        s = f'{type} {varname}{length}'
         return s
 
     def _type_str(self):
@@ -603,7 +601,7 @@ class VarDef(Node):
             else:
                 v = [Unsigned() for i in range(self.len)]
         else:
-            raise TypeError('unknown type "{t}"'.format(t=t))
+            raise TypeError(f'unknown type "{t}"')
         # global scope ?
         if pid is None:
             d = symbol_table.globals
@@ -611,8 +609,7 @@ class VarDef(Node):
             d = symbol_table.locals[pid]
         name = self.name
         if name in d:
-            raise Exception('variable "{name}" is already defined'.format(
-                            name=name))
+            raise Exception(f'variable "{name}" is already defined')
         else:
             d[name] = v
 
@@ -679,19 +676,15 @@ class SymbolTable(object):
         return True
 
     def __str__(self):
+        pids = pprint.pformat(self.pids, width=15)
         return (
-            'globals: {g}\n'
-            'channels: {c}\n'
-            'pids: {p}\n\n'
-            'types: {t}\n'
-            'locals: {l}\n'
-            'exclusive: {e}\n').format(
-                g=self.globals,
-                l=self.locals,
-                p=pprint.pformat(self.pids, width=15),
-                t=self.types,
-                e=self.exclusive,
-                c=self.channels)
+            f'globals: {self.globals}\n'
+            f'channels: {self.channels}\n'
+            f'pids: {pids}\n\n'
+            f'types: {self.types}\n'
+            f'locals: {self.locals}\n'
+            f'exclusive: {self.exclusive}\n')
+
 
     def copy(self):
         new = SymbolTable()
@@ -721,8 +714,7 @@ class MessageChannel(object):
         if len(self.contents) < self.nslots:
             self.contents.append(x)
         else:
-            raise Exception('channel {name} is full'.format(
-                            name=self.name))
+            raise Exception(f'channel {self.name} is full')
 
     def receive(self, x=None, random=False, rm=True):
         c = self.contents
@@ -741,8 +733,8 @@ class TypeDef(Node):
         self.decls = decls
 
     def __str__(self):
-        return 'typedef {name} {decls}'.format(
-            name=self.name, decls=to_str(self.decls))
+        decls = to_str(self.decls)
+        return f'typedef {self.name} {decls}'
 
     def exe(self, t):
         t.types[self.name] = self
@@ -753,7 +745,7 @@ class MessageType(Node):
         self.values = values
 
     def __str__(self):
-        return 'mtype {{ {values} }}'.format(values=self.values)
+        return f'mtype {{ {self.values} }}'
 
     def exe(self, t):
         t.types[self.name] = self
@@ -774,7 +766,7 @@ class Run(Node):
         self.priority = priority
 
     def __str__(self):
-        return 'run({f})'.format(f=self.func)
+        return f'run({self.func})'
 
 
 class Inline(Node):
@@ -794,7 +786,7 @@ class Assert(Node):
         self.expr = expr
 
     def __repr__(self):
-        return 'assert({expr})'.format(expr=repr(self.expr))
+        return f'assert({self.expr!r})'
 
 
 class Expression(Node):
@@ -802,7 +794,7 @@ class Expression(Node):
         self.expr = expr
 
     def __repr__(self):
-        return 'Expression({expr})'.format(expr=repr(self.expr))
+        return f'Expression({self.expr!r})'
 
     def __str__(self):
         return to_str(self.expr)
@@ -836,15 +828,13 @@ class Assignment(Node):
         self.value = value
 
     def __repr__(self):
-        return 'Assignment({var}, {val})'.format(
-            var=repr(self.var), val=repr(self.value))
+        return f'Assignment({self.var!r}, {self.value!r})'
 
     def __str__(self):
-        return '{var} = {val}'.format(var=self.var, val=self.value)
+        return f'{self.var!r} = {self.value!r}'
 
     def exe(self, g, l):
-        logger.debug('Assign: {var} = {val}'.format(
-                     var=self.var, val=self.value))
+        logger.debug(f'Assign: {self.var} = {self.value}')
         s = self.to_str()
         og = g
         ol = l
@@ -878,7 +868,7 @@ class Receive(Node):
 
     def __str__(self):
         v = to_str(self.var)
-        return 'Rx({v})'.format(v=v)
+        return f'Rx({v})'
 
 
 class Send(Node):
@@ -888,7 +878,7 @@ class Send(Node):
 
     def __str__(self):
         v = to_str(self.var)
-        return 'Tx({v})'.format(v=v)
+        return f'Tx({v})'
 
 
 class Printf(Node):
@@ -906,22 +896,20 @@ class Operator(object):
         self.operands = operands
 
     def __repr__(self):
-        return 'Operator({op}, {xy})'.format(
-            op=repr(self.operator),
-            xy=', '.join(repr(x) for x in self.operands))
+        xy = ', '.join(repr(x) for x in self.operands)
+        return f'Operator({self.operator!r}, {xy})'
 
     def __str__(self):
-        return '({op} {xy})'.format(
-            op=self.operator,
-            xy=' '.join(to_str(x) for x in self.operands))
+        xy = ' '.join(to_str(x) for x in self.operands)
+        return f'({self.operator} {xy})'
 
 
 class Binary(Operator):
     def __str__(self):
-        return '({x} {op} {y})'.format(
-            x=to_str(self.operands[0]),
-            op=self.operator,
-            y=to_str(self.operands[1]))
+        x = to_str(self.operands[0])
+        y = to_str(self.operands[1])
+        return f'({x} {self.operator} {y})'
+
 
 
 class Unary(Operator):
@@ -933,9 +921,7 @@ class Terminal(object):
         self.value = value
 
     def __repr__(self):
-        return '{classname}({val})'.format(
-            classname=type(self).__name__,
-            val=repr(self.value))
+        return f'{type(self).__name__}({self.value!r})'
 
     def __str__(self):
         return str(self.value)
@@ -954,20 +940,15 @@ class VarRef(Terminal):
         self.value = name
 
     def __repr__(self):
-        return 'VarRef({name}, {index}, {ext})'.format(
-            name=repr(self.name),
-            index=repr(self.index),
-            ext=repr(self.extension))
+        return f'VarRef({self.name!r}, {self.index!r}, {self.extension!r})'
 
     def __str__(self):
         if self.index is None:
-            i = ''
+            index = ''
         else:
-            i = '[{i}]'.format(i=to_str(self.index))
-        return '{name}{index}{ext}'.format(
-            name=self.name,
-            index=i,
-            ext='' if self.extension is None else self.extension)
+            index = f'[{to_str(self.index)}]'
+        ext = '' if self.extension is None else self.extension
+        return f'{self.name}{index}{ext}'
 
 
 class Integer(Terminal):
@@ -983,7 +964,7 @@ class Bool(Terminal):
         return self.value
 
     def __repr__(self):
-        return 'Bool({value})'.format(value=repr(self.value))
+        return f'Bool({self.value!r})'
 
     def __str__(self):
         return str(self.value)
@@ -996,16 +977,14 @@ class RemoteRef(Terminal):
         self.pid = pid
 
     def __repr__(self):
-        return 'RemoteRef({proc}, {label}, {pid})'.format(
-            proc=self.proctype, label=self.label, pid=self.pid)
+        return f'RemoteRef({self.proctype}, {self.label}, {self.pid})'
 
     def __str__(self):
         if self.pid is None:
             inst = ''
         else:
-            inst = '[{pid}]'.format(pid=self.pid)
-        return '{proc} {inst} @ {label}'.format(
-            proc=self.proctype, inst=inst, label=self.label)
+            inst = f'[{self.pid}]'
+        return f'{self.proctype} {inst} @ {self.label}'
 
 
 def dump_graph(g, fname='a.pdf', node_label='label',
@@ -1020,16 +999,16 @@ def dump_graph(g, fname='a.pdf', node_label='label',
         s.append('mapping of nodes:')
         for k in sorted(inv_mapping):
             v = inv_mapping[k]
-            s.append('{k}: {v}'.format(k=k, v=v))
+            s.append(f'{k}: {v}')
         print('\n'.join(s))
     h = nx.MultiDiGraph()
     for u, d in g.nodes(data=True):
         label = d.get(node_label, u)
-        label = '"{label}"'.format(label=label)
+        label = f'"{label}"'
         h.add_node(u, label=label)
     for u, v, d in g.edges(data=True):
         label = d.get(edge_label, ' ')
-        label = '"{label}"'.format(label=label)
+        label = f'"{label}"'
         h.add_edge(u, v, label=label)
     pd = nx.drawing.nx_pydot.to_pydot(h)
     pd.write_pdf(fname)
