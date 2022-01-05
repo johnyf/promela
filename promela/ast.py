@@ -130,18 +130,23 @@ class Proctype:
 
 def contract_goto_edges(g, u):
     """Identify nodes connected with `goto` edge."""
-    assert u in g
-    assert g.root in g
+    if u not in g:
+        raise AssertionError(u)
+    if g.root not in g:
+        raise AssertionError(g.root)
     n = g.out_degree(u)
     if n == 0 or 1 < n:
         return
-    assert n == 1, n
+    if n != 1:
+        raise AssertionError(n)
     # single outgoing edge: safe to contract
     _, q, d = next(iter(g.edges(u, data=True)))
     if d['stmt'] != 'goto':
         return
     # goto
-    assert u != q, 'loop of `goto`s detected'
+    if u == q:
+        raise AssertionError(
+            'loop of `goto`s detected')
     # the source node context (atomic or d_step) is overwritten
     for p, _, d in g.in_edges(u, data=True):
         g.add_edge(p, q, **d)
@@ -163,13 +168,17 @@ def assert_gotos_are_admissible(g):
         if g.out_degree(u) <= 1:
             continue
         for _, v, d in g.edges(u, data=True):
-            assert 'stmt' in d
+            if 'stmt' not in d:
+                raise AssertionError(d)
             stmt = d['stmt']
-            assert stmt != 'goto', stmt
+            if stmt == 'goto':
+                raise AssertionError(stmt)
     for u, d in g.nodes(data=True):
-        assert 'context' in d
+        if 'context' not in d:
+            raise AssertionError(d)
     for u, v, d in g.edges(data=True):
-        assert 'stmt' in d
+        if 'stmt' not in d:
+            raise AssertionError(d)
 
 
 def map_uuid_to_int(g):
@@ -280,7 +289,8 @@ class Sequence(list):
         if context is None:
             context = self.context
         c = context
-        assert c in {'atomic', 'd_step', None}
+        if c not in {'atomic', 'd_step', None}:
+            raise AssertionError(c)
         # atomic cannot appear inside d_step
         if context == 'd_step' and c == 'atomic':
             raise Exception('atomic inside d_step')
@@ -288,7 +298,9 @@ class Sequence(list):
         # find first non-decl
         # option guard first
         option_guard = self.is_option or option_guard
-        assert len(self) > 0
+        len_self = len(self)
+        if len_self <= 0:
+            raise AssertionError(len_self)
         stmts = iter(self)
         t = None
         for stmt in stmts:
@@ -304,7 +316,8 @@ class Sequence(list):
         # (should have been caught below)
         if option_guard:
             for u, d in e:
-                assert d.get('stmt') != 'goto', self
+                if d.get('stmt') == 'goto':
+                    raise AssertionError(self)
         # other option statements
         for stmt in stmts:
             t = stmt.to_pg(g, context=context, option_guard=None, **kw)
@@ -313,11 +326,13 @@ class Sequence(list):
                 continue
             ine, out = t
             # connect tail to ine
-            assert ine
+            if not ine:
+                raise AssertionError(ine)
             for v, d in ine:
                 g.add_edge(tail, v, **d)
             # update tail
-            assert out in g
+            if out not in g:
+                raise AssertionError(out)
             tail = out
         return e, tail
 
@@ -360,8 +375,10 @@ class Options(Node):
               context=None, option_guard=None,
               syntactic_else=False, **kw):
         logger.info(f'-- start flattening {self.type}')
-        assert self.options
-        assert self.type in {'if', 'do'}
+        if not self.options:
+            raise AssertionError(self.options)
+        if self.type not in {'if', 'do'}:
+            raise AssertionError(self.type)
         # create target
         target = generate_unique_node()
         g.add_node(target, context=context)
@@ -377,9 +394,12 @@ class Options(Node):
         for option in self.options:
             logger.debug(f'option: {option}')
             t = option.to_pg(g, od_exit=od_exit, context=context, **kw)
-            assert t is not None  # decls filtered by `Sequence`
+            # decls filtered by `Sequence`
+            if t is None:
+                raise AssertionError(t)
             ine, out = t
-            assert out in g
+            if out not in g:
+                raise AssertionError(out)
             # detect `else`
             has_else = False
             for u, d in ine:
@@ -388,18 +408,22 @@ class Options(Node):
                     has_else = True
                     self_else = stmt
                 # option cannot start with goto (= contraction)
-                assert stmt != 'goto'
+                if stmt == 'goto':
+                    raise AssertionError(stmt)
             # who owns this else ?
             if has_else:
                 if len(ine) == 1:
-                    assert not self_has_else, option
+                    if self_has_else:
+                        raise AssertionError(option)
                     self_has_else = True
                     if not syntactic_else:
-                        assert not option_has_else, option
+                        if option_has_else:
+                            raise AssertionError(option)
                 elif len(ine) > 1:
                     option_has_else = True
                     if not syntactic_else:
-                        assert not self_has_else, option
+                        if self_has_else:
+                            raise AssertionError(option)
                 else:
                     raise Exception('option with no in edges')
             # collect in edges, except for own `else`
@@ -437,7 +461,8 @@ class Options(Node):
             in_edges = edges
         logger.debug(f'in edges: {in_edges}, out: {out}\n')
         logger.info(f'-- end flattening {self.type}')
-        assert out in g
+        if out not in g:
+            raise AssertionError(out)
         return in_edges, out
 
 
@@ -458,7 +483,8 @@ class Break(Node):
             raise Exception('Break outside repetition construct.')
         # like goto, but with: v = od_exit
         # context of od_tail is determined by do loop
-        assert od_exit in g
+        if od_exit not in g:
+            raise AssertionError(od_exit)
         v = od_exit
         return goto_to_pg(g, v, **kw)
 
@@ -479,7 +505,8 @@ class Goto(Node):
 
 
 def goto_to_pg(g, v, option_guard=None, context=None, **kw):
-    assert v in g
+    if v not in g:
+        raise AssertionError(v)
     if option_guard is None:
         stmt = 'goto'
     else:
@@ -509,7 +536,8 @@ class Label(Node):
         if t is None:
             raise Exception('Label of variable declaration.')
         ine, out = t
-        assert out in g
+        if out not in g:
+            raise AssertionError(out)
         # make ine out edges of label node
         for v, d in ine:
             g.add_edge(u, v, **d)
@@ -535,7 +563,8 @@ class VarDef(Node):
             l = None
         else:
             l = eval(str(length))
-            assert isinstance(l, int), l
+            if not isinstance(l, int):
+                raise AssertionError(l)
         self.length = l
         self.visible = visible
         if bitwidth is not None:
