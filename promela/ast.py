@@ -3,6 +3,7 @@ import logging
 import copy
 import ctypes
 import pprint
+
 import networkx as nx
 from networkx.utils import misc
 

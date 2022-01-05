@@ -1,5 +1,6 @@
 """Lexer for Promela, using Python Lex-Yacc (PLY)."""
 import logging
+
 import ply.lex
 
 
