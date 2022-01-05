@@ -904,6 +904,11 @@ def cpp(s):
             raise
     logger.debug('cpp input:\n' + s)
     stdout, stderr = p.communicate(s)
+    if p.returncode != 0:
+        raise RuntimeError(
+            p.returncode,
+            stderr,
+            stdout)
     logger.debug(f'cpp returned: {p.returncode}')
     logger.debug(f'cpp stdout:\n {stdout}')
     return stdout
