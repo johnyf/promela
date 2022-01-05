@@ -86,7 +86,7 @@ class Lexer(object):
             'PREPROC', 'NEWLINE', 'COMMENT']
         self.tokens = (
             self.delimiters + self.operators +
-            self.misc + list(set(self.reserved.values())))
+            self.misc + sorted(set(self.reserved.values())))
         self.build(debug=debug)
 
     def build(self, debug=False, debuglog=None, **kwargs):
