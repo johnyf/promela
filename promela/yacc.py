@@ -67,7 +67,7 @@ class Parser(object):
             ('left', 'DOT'),
             ('left', 'LPAREN', 'RPAREN', 'LBRACKET', 'RBRACKET'))
         self.tokens = self.lexer.tokens
-        self.build()
+        self.parser = None
 
     def build(self, tabmodule=None, outputdir='', write_tables=False,
               debug=False, debuglog=None, errorlog=None):
@@ -94,6 +94,8 @@ class Parser(object):
 
     def parse(self, promela):
         """Parse string of Promela code."""
+        if self.parser is None:
+            self.build()
         s = cpp(promela)
         program = self.parser.parse(
             s, lexer=self.lexer.lexer, debug=self.logger)
