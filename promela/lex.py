@@ -7,7 +7,7 @@ import ply.lex
 logger = logging.getLogger(__name__)
 
 
-class Lexer(object):
+class Lexer:
     """Lexer for the Promela modeling language."""
 
     def __init__(self, debug=False):

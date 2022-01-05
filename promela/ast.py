@@ -44,7 +44,7 @@ def to_str(x):
         return str(x)
 
 
-class Proctype(object):
+class Proctype:
     def __init__(self, name, body, args=None,
                  active=None, d_proc=False,
                  priority=None, provided=None):
@@ -240,7 +240,7 @@ class Program(list):
         return global_defs, proctypes, ltl
 
 
-class LTL(object):
+class LTL:
     """Used to mark strings as LTL blocks."""
 
     def __init__(self, formula):
@@ -322,7 +322,7 @@ class Sequence(list):
         return e, tail
 
 
-class Node(object):
+class Node:
     def to_pg(self, g, context=None, **kw):
         u = generate_unique_node()
         g.add_node(u, context=context)
@@ -613,7 +613,7 @@ class VarDef(Node):
             d[name] = v
 
 
-class SymbolTable(object):
+class SymbolTable:
     """Variable, user data and message type definitions.
 
     Attributes:
@@ -704,7 +704,7 @@ class SymbolTable(object):
         return new
 
 
-class MessageChannel(object):
+class MessageChannel:
     def __init__(self, nslots):
         self.nslots = nslots
         self.contents = list()
@@ -889,7 +889,7 @@ class Printf(Node):
         return 'printf()'.format(s=self.s, args=self.args)
 
 
-class Operator(object):
+class Operator:
     def __init__(self, operator, *operands):
         self.operator = operator
         self.operands = operands
@@ -915,7 +915,7 @@ class Unary(Operator):
     pass
 
 
-class Terminal(object):
+class Terminal:
     def __init__(self, value):
         self.value = value
 

@@ -24,7 +24,7 @@ TABMODULE = 'promela.promela_parsetab'
 logger = logging.getLogger(__name__)
 
 
-class Parser(object):
+class Parser:
     """Production rules for Promela parser."""
 
     def __init__(self, ast=None, lexer=None):
