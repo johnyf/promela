@@ -48,13 +48,13 @@ def _build_parser_table():
 
 
 def run_setup():
-    with open(VERSION_FILE, 'w') as f:
-        f.write(VERSION_FILE_TEXT)
     try:
         _build_parser_table()
     except ImportError:
         print('WARNING: `promela` could not cache parser tables '
               '(ignore this if running only for "egg_info").')
+    with open(VERSION_FILE, 'w') as f:
+        f.write(VERSION_FILE_TEXT)
     with open(README) as f:
         long_description = f.read()
     setuptools.setup(
