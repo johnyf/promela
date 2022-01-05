@@ -41,7 +41,7 @@ KEYWORDS = [
 
 def build_parser_table():
     from promela import yacc
-    tabmodule = yacc.TABMODULE.split('.')[-1]
+    tabmodule = yacc.TABMODULE.rpartition('.')[-1]
     outputdir = 'promela/'
     parser = yacc.Parser()
     parser.build(tabmodule, outputdir=outputdir, write_tables=True)

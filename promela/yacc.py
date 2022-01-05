@@ -932,7 +932,7 @@ def rebuild_table(parser, tabmodule):
 
 
 if __name__ == '__main__':
-    rebuild_table(Parser(), TABMODULE.split('.')[-1])
+    rebuild_table(Parser(), TABMODULE.rpartition('.')[-1])
 
 
 # TODO
