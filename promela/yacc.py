@@ -8,8 +8,6 @@ Holzmann G.J., The SPIN Model Checker,
     Addison-Wesley, 2004, pp. 365--368
     https://spinroot.com/spin/Man/Quick.html
 """
-from __future__ import absolute_import
-from __future__ import division
 import logging
 import os
 import subprocess
