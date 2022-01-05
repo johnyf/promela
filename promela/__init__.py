@@ -1,6 +1,7 @@
 """Promela parser and syntax tree."""
-from .yacc import Parser
+from promela.yacc import Parser
 try:
-    from ._version import version as __version__
+    from promela import _version
+    __version__ = _version.version
 except:
     __version__ = None
