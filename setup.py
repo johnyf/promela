@@ -47,7 +47,7 @@ def build_parser_table():
     parser.build(tabmodule, outputdir=outputdir, write_tables=True)
 
 
-if __name__ == '__main__':
+def run_setup():
     with open(VERSION_FILE, 'w') as f:
         f.write(VERSION_FILE_TEXT)
     try:
@@ -75,3 +75,7 @@ if __name__ == '__main__':
         package_dir={'promela': 'promela'},
         classifiers=CLASSIFIERS,
         keywords=KEYWORDS)
+
+
+if __name__ == '__main__':
+    run_setup()
