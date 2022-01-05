@@ -28,42 +28,44 @@ logger = logging.getLogger(__name__)
 class Parser(object):
     """Production rules for Promela parser."""
 
-    logger = logger
-    tabmodule = TABMODULE
-    start = 'program'
-    # https://spinroot.com/spin/Man/operators.html
-    # spin.y
-    # lowest to highest
-    precedence = (
-        ('right', 'EQUALS'),
-        ('left', 'TX2', 'RCV', 'R_RCV'),
-        ('left', 'IMPLIES', 'EQUIV'),
-        ('left', 'LOR'),
-        ('left', 'LAND'),
-        ('left', 'ALWAYS', 'EVENTUALLY'),
-        ('left', 'UNTIL', 'WEAK_UNTIL', 'RELEASE'),
-        ('right', 'NEXT'),
-        ('left', 'OR'),
-        ('left', 'XOR'),
-        ('left', 'AND'),
-        ('left', 'EQ', 'NE'),
-        ('left', 'LT', 'LE', 'GT', 'GE'),
-        ('left', 'LSHIFT', 'RSHIFT'),
-        ('left', 'PLUS', 'MINUS'),
-        ('left', 'TIMES', 'DIVIDE', 'MOD'),
-        ('left', 'INCR', 'DECR'),
-        ('right', 'LNOT', 'NOT', 'UMINUS', 'NEG'),  # LNOT is also SND
-        ('left', 'DOT'),
-        ('left', 'LPAREN', 'RPAREN', 'LBRACKET', 'RBRACKET'))
-
     def __init__(self, ast=None, lexer=None):
         if ast is None:
             import promela.ast as ast
+            self.ast = ast
+        else:
+            self.ast = ast
         if lexer is None:
             from promela import lex
-            lexer = lex.Lexer()
-        self.lexer = lexer
-        self.ast = ast
+            self.lexer = lex.Lexer()
+        else:
+            self.lexer = lexer
+        self.logger = logger
+        self.tabmodule = TABMODULE
+        self.start = 'program'
+        # https://spinroot.com/spin/Man/operators.html
+        # spin.y
+        # lowest to highest
+        self.precedence = (
+            ('right', 'EQUALS'),
+            ('left', 'TX2', 'RCV', 'R_RCV'),
+            ('left', 'IMPLIES', 'EQUIV'),
+            ('left', 'LOR'),
+            ('left', 'LAND'),
+            ('left', 'ALWAYS', 'EVENTUALLY'),
+            ('left', 'UNTIL', 'WEAK_UNTIL', 'RELEASE'),
+            ('right', 'NEXT'),
+            ('left', 'OR'),
+            ('left', 'XOR'),
+            ('left', 'AND'),
+            ('left', 'EQ', 'NE'),
+            ('left', 'LT', 'LE', 'GT', 'GE'),
+            ('left', 'LSHIFT', 'RSHIFT'),
+            ('left', 'PLUS', 'MINUS'),
+            ('left', 'TIMES', 'DIVIDE', 'MOD'),
+            ('left', 'INCR', 'DECR'),
+            ('right', 'LNOT', 'NOT', 'UMINUS', 'NEG'),  # LNOT is also SND
+            ('left', 'DOT'),
+            ('left', 'LPAREN', 'RPAREN', 'LBRACKET', 'RBRACKET'))
         self.tokens = self.lexer.tokens
         self.build()
 
