@@ -40,6 +40,8 @@ KEYWORDS = [
 
 
 def _build_parser_table():
+    if not _ply_is_installed():
+        return
     from promela import yacc
     tabmodule = yacc.TABMODULE.rpartition('.')[-1]
     outputdir = 'promela/'
@@ -47,12 +49,17 @@ def _build_parser_table():
     parser.build(tabmodule, outputdir=outputdir, write_tables=True)
 
 
-def run_setup():
+def _ply_is_installed():
     try:
         import ply
     except ImportError:
         print('WARNING: `promela` could not cache parser tables '
               '(ignore this if running only for "egg_info").')
+        return False
+    return True
+
+
+def run_setup():
     with open(VERSION_FILE, 'w') as f:
         f.write(VERSION_FILE_TEXT)
     _build_parser_table()
