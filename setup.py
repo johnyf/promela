@@ -1,5 +1,5 @@
 """Installation script."""
-from setuptools import setup
+import setuptools
 # inline:
 # from promela import yacc
 
@@ -57,7 +57,7 @@ if __name__ == '__main__':
               '(ignore this if running only for "egg_info").')
     with open(README) as f:
         long_description = f.read()
-    setup(
+    setuptools.setup(
         name='promela',
         version=VERSION,
         description=DESCRIPTION,
