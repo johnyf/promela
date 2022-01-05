@@ -572,7 +572,7 @@ class VarDef(Node):
     def insert(self, symbol_table, pid):
         """Insert variable into table of symbols.
 
-        @type symbol_table: L{SymbolTable}
+        @type symbol_table: `SymbolTable`
 
         @type pid: int or None
         """
