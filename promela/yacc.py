@@ -6,7 +6,7 @@ References
 
 Holzmann G.J., The SPIN Model Checker,
     Addison-Wesley, 2004, pp. 365--368
-    https://spinroot.com/spin/Man/Quick.html
+    <https://spinroot.com/spin/Man/Quick.html>
 """
 import logging
 import os
@@ -41,7 +41,7 @@ class Parser:
         self.logger = logger
         self.tabmodule = TABMODULE
         self.start = 'program'
-        # https://spinroot.com/spin/Man/operators.html
+        # <https://spinroot.com/spin/Man/operators.html>
         # spin.y
         # lowest to highest
         self.precedence = (
