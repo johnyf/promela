@@ -42,7 +42,7 @@ class Parser:
         self.tabmodule = TABMODULE
         self.start = 'program'
         # <https://spinroot.com/spin/Man/operators.html>
-        # spin.y
+        # `spin.y`
         # lowest to highest
         self.precedence = (
             ('right', 'EQUALS'),
