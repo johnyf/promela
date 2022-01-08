@@ -254,7 +254,7 @@ class Parser:
 
     def p_one_decl_mtype(self, p):
         """one_decl : MTYPE asgn LBRACE name_list RBRACE"""
-        p[0] = self.ast.MessageType(p[3])
+        p[0] = self.ast.MessageType(p[4])
 
     def p_name_list_iter(self, p):
         """name_list : name_list COMMA NAME"""
