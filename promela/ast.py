@@ -30,7 +30,7 @@ def generate_unique_node():
 
 
 def _indent(s, depth=1, skip=0):
-    w = []
+    w = list()
     for i, line in enumerate(s.splitlines()):
         indent = '' if i < skip else depth * '\t'
         w.append(indent + line)
