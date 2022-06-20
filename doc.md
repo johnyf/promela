@@ -12,6 +12,8 @@ To instantiate a Promela parser:
 
 ```python
 from promela.yacc import Parser
+
+
 parser = Parser()
 ```
 
