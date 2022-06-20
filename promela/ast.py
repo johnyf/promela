@@ -717,7 +717,6 @@ class SymbolTable:
             f'locals: {self.locals}\n'
             f'exclusive: {self.exclusive}\n')
 
-
     def copy(self):
         new = SymbolTable()
         # auxiliary
