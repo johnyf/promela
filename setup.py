@@ -32,8 +32,6 @@ CLASSIFIERS = [
     'Operating System :: OS Independent',
     'Programming Language :: Python',
     'Programming Language :: Python :: 3 :: Only',
-    'Programming Language :: Python :: 3.9',
-    'Programming Language :: Python :: 3.10',
     'Topic :: Scientific/Engineering']
 KEYWORDS = [
     'promela', 'parser', 'syntax tree', 'ply', 'lex', 'yacc']
