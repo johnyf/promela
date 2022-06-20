@@ -210,7 +210,7 @@ class Lexer:
     # much more efficient internal handling by lex
     #
     # A string containing ignored characters (spaces and tabs)
-    t_ignore = ' \t'
+    t_ignore = ''.join(['\x20', '\t'])
 
     def t_NEWLINE(self, t):
         r' \n+ '
