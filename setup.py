@@ -46,7 +46,10 @@ def _build_parser_table():
     tabmodule = yacc.TABMODULE.rpartition('.')[-1]
     outputdir = 'promela/'
     parser = yacc.Parser()
-    parser.build(tabmodule, outputdir=outputdir, write_tables=True)
+    parser.build(
+        tabmodule,
+        outputdir=outputdir,
+        write_tables=True)
 
 
 def _ply_is_installed():
