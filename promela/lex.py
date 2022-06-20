@@ -108,7 +108,10 @@ class Lexer:
 
     # check for reserved words
     def t_NAME(self, t):
-        r'[a-zA-Z_][a-zA-Z_0-9]*'
+        r"""
+        [a-zA-Z_]
+        [a-zA-Z_0-9]*
+        """
         t.value = self.values.get(t.value, t.value)
         t.type = self.reserved.get(t.value, 'NAME')
         # switch to LTL context
@@ -118,81 +121,89 @@ class Lexer:
         return t
 
     def t_STRING(self, t):
-        r'"[^"]*"'
+        r' " [^"]* " '
         return t
 
     # operators
-    t_PLUS = r'\+'
-    t_INCR = r'\+\+'
-    t_MINUS = r'\-'
-    t_DECR = r'\-\-'
-    t_TIMES = r'\*'
-    t_DIVIDE = r'/'
-    t_MOD = r'%'
-    t_OR = r'\|'
-    t_AND = r'\&'
-    t_NOT = r'\~'
-    t_XOR = r'\^'
-    t_LOR = r'\|\|'
-    t_LAND = r'\&\&'
-    t_LNOT = r'!'
-    t_TX2 = r'!!'
-    t_LT = r'<'
-    t_LSHIFT = r'<<'
-    t_GT = r'>'
-    t_RSHIFT = r'>>'
-    t_LE = r'<='
-    t_GE = r'>='
-    t_EQ = r'=='
-    t_NE = r'!='
-    t_RCV = r'\?'
-    t_R_RCV = r'\?\?'
-    t_AT = r'@'
-    t_EQUIV = r'<\->'
+    t_PLUS = r' \+ '
+    t_INCR = r' \+ \+ '
+    t_MINUS = r' \- '
+    t_DECR = r' \- \- '
+    t_TIMES = r' \* '
+    t_DIVIDE = r' / '
+    t_MOD = r' % '
+    t_OR = r' \| '
+    t_AND = r' \& '
+    t_NOT = r' \~ '
+    t_XOR = r' \^ '
+    t_LOR = r' \| \| '
+    t_LAND = r' \& \& '
+    t_LNOT = r' ! '
+    t_TX2 = r' !! '
+    t_LT = r' < '
+    t_LSHIFT = r' << '
+    t_GT = r' > '
+    t_RSHIFT = r' >> '
+    t_LE = r' <= '
+    t_GE = r' >= '
+    t_EQ = r' == '
+    t_NE = r' != '
+    t_RCV = r' \? '
+    t_R_RCV = r' \? \? '
+    t_AT = r' @ '
+    t_EQUIV = r' < \- > '
     # assignment
-    t_EQUALS = r'='
+    t_EQUALS = r' = '
     # temporal operators
-    t_ALWAYS = r'\[\]'
-    t_EVENTUALLY = r'<>'
+    t_ALWAYS = r' \[ \] '
+    t_EVENTUALLY = r' <> '
     # delimeters
-    t_LPAREN = r'\('
-    t_RPAREN = r'\)'
-    t_LBRACKET = r'\['
-    t_RBRACKET = r'\]'
-    t_LBRACE = r'\{'
-    t_RBRACE = r'\}'
-    t_COMMA = r','
-    t_PERIOD = r'\.'
-    t_SEMI = r';'
-    t_COLONS = r'::'
-    t_COLON = r':'
-    t_ELLIPSIS = r'\.\.\.'
+    t_LPAREN = r' \( '
+    t_RPAREN = r' \) '
+    t_LBRACKET = r' \[ '
+    t_RBRACKET = r' \] '
+    t_LBRACE = r' \{ '
+    t_RBRACE = r' \} '
+    t_COMMA = r' , '
+    t_PERIOD = r' \. '
+    t_SEMI = r' ; '
+    t_COLONS = r' :: '
+    t_COLON = r' : '
+    t_ELLIPSIS = r' \. \. \. '
 
     def t_ltl_LBRACE(self, t):
-        r'\{'
+        r' \{ '
         self.lexer.level += 1
         return t
 
     def t_ltl_RBRACE(self, t):
-        r'\}'
+        r' \} '
         self.lexer.level -= 1
         if self.lexer.level == 0:
             self.lexer.begin('INITIAL')
         return t
 
     def t_ltl_ARROW(self, t):
-        r'\->'
+        r' \- > '
         t.type = 'IMPLIES'
         return t
 
-    t_INITIAL_ARROW = r'\->'
+    t_INITIAL_ARROW = r' \- > '
 
     def t_PREPROC(self, t):
-        r'\#.*'
+        r' \# .* '
         pass
 
     def t_INTEGER(self, t):
-        r'\d+([uU]|[lL]|[uU][lL]|[lL][uU])?'
+        r"""
+        \d+
+        (
+          [uU]
+        | [lL]
+        | [uU][lL]
+        | [lL][uU]
+        )?
+        """
         return t
 
     # t_ignore is reserved by lex to provide
@@ -202,11 +213,15 @@ class Lexer:
     t_ignore = ' \t'
 
     def t_NEWLINE(self, t):
-        r'\n+'
+        r' \n+ '
         t.lexer.lineno += t.value.count('\n')
 
     def t_COMMENT(self, t):
-        r' /\*(.|\n)*?\*/'
+        r"""
+        / \*
+        (. | \n)*?
+        \* /
+        """
         t.lineno += t.value.count('\n')
 
     def t_error(self, t):
