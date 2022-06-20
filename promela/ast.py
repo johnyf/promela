@@ -90,7 +90,8 @@ class Proctype:
     def to_pg(self, syntactic_else=False):
         """Return program graph of proctype.
 
-        @param syntactic_else: if `True`, then "else"
+        @param syntactic_else:
+            if `True`, then "else"
             statements in directly nested "if" or "do"
             take precedence based on syntactic context.
             The Promela language reference defines
@@ -239,7 +240,8 @@ class Program(list):
     def to_table(self):
         """Return global definitions, proctypes, and LTL blocks.
 
-        @rtype: 3-`tuple` of `set`
+        @rtype:
+            3-`tuple` of `set`
         """
         units = misc.flatten(self)
         ltl = {x for x in units if isinstance(x, LTL)}
@@ -600,9 +602,11 @@ class VarDef(Node):
     def insert(self, symbol_table, pid):
         """Insert variable into table of symbols.
 
-        @type symbol_table: `SymbolTable`
-
-        @type pid: int or None
+        @type symbol_table:
+            `SymbolTable`
+        @type pid:
+            int or
+            None
         """
         t = self.type
         if t == 'chan':
