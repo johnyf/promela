@@ -3,6 +3,7 @@ import logging
 import copy
 import ctypes
 import pprint
+import subprocess as _sbp
 
 import networkx as nx
 from networkx.utils import misc
@@ -1042,5 +1043,28 @@ def dump_graph(g, fname='a.pdf', node_label='label',
         label = d.get(edge_label, ' ')
         label = f'"{label}"'
         h.add_edge(u, v, label=label)
-    pd = nx.drawing.nx_pydot.to_pydot(h)
-    pd.write_pdf(fname)
+    # format as DOT
+    nodes = list()
+    for u, d in h.nodes(data=True):
+        label = d['label']
+        nodes.append(
+            f'{u} [label={label}];')
+    nodes_dot = '\n'.join(nodes)
+    edges = list()
+    for u, v, d in h.edges(data=True):
+        label = d['label']
+        edges.append(
+            f'{u} -> {v} [label={label}];')
+    edges_dot = '\n'.join(edges)
+    dot_text = f'digraph {{ {nodes_dot}\n{edges_dot} }}'
+    # write as PDF
+    dot = [
+        'dot',
+        '-Tpdf',
+        f'-o{fname}']
+    _sbp.run(
+        dot,
+        encoding='utf8',
+        input=dot_text,
+        capture_output=True,
+        check=True)

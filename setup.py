@@ -23,8 +23,7 @@ VERSION_FILE_TEXT = (
 PYTHON_REQUIRES = '>=3.9'
 INSTALL_REQUIRES = [
     'networkx >= 2.0',
-    'ply >= 3.4, <= 3.10',
-    'pydot >= 1.1.0']
+    'ply >= 3.4, <= 3.10']
 CLASSIFIERS = [
     'Development Status :: 2 - Pre-Alpha',
     'Intended Audience :: Science/Research',
