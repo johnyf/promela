@@ -13,10 +13,7 @@ PROJECT_URLS = {
     'Documentation':
         'https://github.com/johnyf/promela/blob/main/doc.md',}
 VERSION_FILE = 'promela/_version.py'
-MAJOR = 0
-MINOR = 0
-MICRO = 4
-VERSION = f'{MAJOR}.{MINOR}.{MICRO}'
+VERSION = '0.0.5'
 VERSION_FILE_TEXT = (
     '# This file was generated from setup.py\n'
     f"version = '{VERSION}'\n")
