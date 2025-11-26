@@ -72,7 +72,7 @@ def run_setup():
         author_email='jfilippidis@gmail.com',
         url='https://github.com/johnyf/promela',
         project_urls=PROJECT_URLS,
-        license='BSD',
+        license='BSD-3-Clause',
         python_requires=PYTHON_REQUIRES,
         install_requires=INSTALL_REQUIRES,
         # tests_require=['pytest'],
