@@ -513,7 +513,7 @@ def atomic_pg_test():
     h.add_node(3, context=None)
     h.add_edges_from([(0, 1), (1, 2), (2, 3)])
     nm = lambda x, y: x['context'] == y['context']
-    gm = iso.GraphMatcher(g, h, node_match=nm)
+    gm = iso.MultiDiGraphMatcher(g, h, node_match=nm)
     assert gm.is_isomorphic()
 
 
@@ -543,7 +543,7 @@ def do_atomic_dissapears_pg_test():
     for u in h:
         h.add_node(u, context=None)
     nm = lambda x, y: x['context'] == y['context']
-    gm = iso.GraphMatcher(g, h, node_match=nm)
+    gm = iso.MultiDiGraphMatcher(g, h, node_match=nm)
     assert gm.is_isomorphic()
 
 
@@ -575,7 +575,7 @@ def do_atomic_pg_test():
         h.add_node(u, context=None)
     h.add_node(2, context='atomic')
     nm = lambda x, y: x['context'] == y['context']
-    gm = iso.GraphMatcher(g, h, node_match=nm)
+    gm = iso.MultiDiGraphMatcher(g, h, node_match=nm)
     assert gm.is_isomorphic()
 
 
@@ -643,7 +643,7 @@ def test_nested_else():
     for u in h:
         h.add_node(u, context=None)
     nm = lambda x, y: x['context'] == y['context']
-    gm = iso.GraphMatcher(g, h, node_match=nm)
+    gm = iso.MultiDiGraphMatcher(g, h, node_match=nm)
     assert gm.is_isomorphic()
 
 
