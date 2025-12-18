@@ -1,4 +1,7 @@
 """Installation script."""
+import os
+import sys
+
 import setuptools
 # inline:
 # from promela import yacc
@@ -36,6 +39,9 @@ KEYWORDS = [
 def _build_parser_table():
     if not _ply_is_installed():
         return
+    dirpath = os.path.dirname(__file__)
+    sys.path.insert(0, dirpath)
+        # to import `promela` from here
     from promela import yacc
     tabmodule = yacc.TABMODULE.rpartition('.')[-1]
     outputdir = 'promela/'
