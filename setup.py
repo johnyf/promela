@@ -63,10 +63,14 @@ def _ply_is_installed():
 
 
 def run_setup():
-    with open(VERSION_FILE, 'w') as f:
+    with open(VERSION_FILE,
+                mode='w',
+                encoding='utf-8') as f:
         f.write(VERSION_FILE_TEXT)
     _build_parser_table()
-    with open(README) as f:
+    with open(README,
+                mode='r',
+                encoding='utf-8') as f:
         long_description = f.read()
     setuptools.setup(
         name='promela',
